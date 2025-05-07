@@ -31,7 +31,6 @@ const {
 } = usePagination(fetchPoints);
 
 const handleFilterChange = ({ yearMonth, transactionType }) => {
-  console.log(yearMonth, transactionType);
   selectedYearMonth.value = yearMonth;
   selectedTransactionType.value = transactionType;
   reset(); // 기존 데이터 초기화

@@ -23,11 +23,11 @@ const router = createRouter({
   ],
 });
 
-// 전역 가드 (라우팅 전 확인하여 라우팅 여부 결정 가능)
+// 전역 가드
 router.beforeEach((to) => {
-  console.log(to);
   const authStore = useAuthStore();
-  // 인증이 되어야만 하는 페이지인데 인증이 되어 있지 않다면 로그인 페이지로 이동
+
+  /* 인증이 필요한 서비스인데 인증이 안되어 있는 경우 login으로 이동*/
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return {
       name: 'login',
@@ -35,10 +35,17 @@ router.beforeEach((to) => {
     };
   }
 
+  /* 로그인 되어 있는데 Login 및 signup으로 이동시 메인으로 이동 */
   if ((to.name === 'login' || to.name === 'signup') && authStore.isAuthenticated) {
     return { name: 'main' };
   }
-  // 그 외에는 그대로 라우팅 처리함
+
+  /* admin 권한 체크 */
+  if (to.path.startsWith('/admin')) {
+    if (!authStore.isAuthenticated || authStore.userRole !== 'ADMIN') {
+      return { name: 'login' };
+    }
+  }
 });
 
 export default router;

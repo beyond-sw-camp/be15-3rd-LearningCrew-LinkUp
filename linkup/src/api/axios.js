@@ -1,7 +1,7 @@
 /* 요청, 응답에 공통적으로 적용 될 부분을 axios 객체로 정의 */
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth.js';
-import { logoutUser, refreshUserToken } from '@/api/user.js';
+import { refreshUserToken } from '@/api/user.js';
 import { showErrorToast, showSuccessToast } from '@/utill/toast.js';
 import { stopLoading } from '@/composables/useLoadingBar.js';
 
@@ -33,6 +33,7 @@ api.interceptors.response.use(
     const authStore = useAuthStore();
     const { config, response } = error;
 
+    /* 서버 응답이 없을 때 */
     if (!response) {
       // 서버로부터 응답 자체가 없을 때 (네트워크 오류 등)
       showErrorToast('서버와 연결할 수 없습니다. 인터넷 상태를 확인해주세요.');
