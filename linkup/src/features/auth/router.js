@@ -45,12 +45,12 @@ export const authRoutes = [
   },
   {
     path: '/password/reset',
-    name: 'reset-password',
+    name: 'reset-password-link',
     component: () => import('@/features/auth/views/ResetPasswordView.vue'),
   },
   {
     path: '/reset-password',
-    name: 'ResetPassword',
+    name: 'reset-password',
     component: () => import('@/features/auth/views/ResetPasswordFormView.vue'),
   },
   {

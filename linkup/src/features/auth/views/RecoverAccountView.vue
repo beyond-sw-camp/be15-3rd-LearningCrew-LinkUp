@@ -15,7 +15,6 @@ const authStore = useAuthStore();
 
 // 비밀번호 유효성
 const isValid = computed(() => {
-  console.log();
   return email.value.trim() !== '' && password.value.trim() !== '';
 });
 

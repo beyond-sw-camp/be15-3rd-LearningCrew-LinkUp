@@ -105,13 +105,14 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout() {
-    try {
-      await logoutUser();
-    } catch (err) {
-      console.error('로그아웃 요청 실패', err);
-    } finally {
-      clearAuth();
+    if (accessToken.value) {
+      try {
+        await logoutUser();
+      } catch (err) {
+        console.error('로그아웃 요청 실패', err);
+      }
     }
+    clearAuth();
   }
 
   async function refresh() {

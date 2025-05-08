@@ -7,7 +7,7 @@ import { communityRoute } from '@/features/community/router.js';
 import { authRoutes } from '@/features/auth/router.js';
 import { userRoutes } from '@/features/user/router.js';
 import { useAuthStore } from '@/stores/auth.js';
-import {tossRoutes} from "@/features/point/router.js";
+import { tossRoutes } from '@/features/point/router.js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,7 +19,7 @@ const router = createRouter({
     ...meetingRoutes,
     ...placeRoutes,
     ...communityRoute,
-    ...tossRoutes
+    ...tossRoutes,
   ],
 });
 
@@ -45,6 +45,16 @@ router.beforeEach((to) => {
     if (!authStore.isAuthenticated || authStore.userRole !== 'ADMIN') {
       return { name: 'login' };
     }
+  }
+
+  /* 비밀번호 재설정 및 계정 복구 가드 */
+  if (
+    (to.name === 'reset-password-link' ||
+      to.name === 'reset-password' ||
+      to.name === 'recover-account') &&
+    authStore.isAuthenticated
+  ) {
+    return { name: 'main' };
   }
 });
 
