@@ -8,6 +8,7 @@ import { authRoutes } from '@/features/auth/router.js';
 import { userRoutes } from '@/features/user/router.js';
 import { useAuthStore } from '@/stores/auth.js';
 import { tossRoutes } from '@/features/point/router.js';
+import { showErrorToast } from '@/utill/toast.js';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,7 +44,18 @@ router.beforeEach((to) => {
   /* admin 권한 체크 */
   if (to.path.startsWith('/admin')) {
     if (!authStore.isAuthenticated || authStore.userRole !== 'ADMIN') {
-      return { name: 'login' };
+      showErrorToast('관리자만 접근할 수 있습니다.');
+    }
+  }
+
+  /* Businesss 권한 체크 */
+  if (
+    to.name === 'PlaceRegisterStep1' ||
+    to.name === 'PlaceRegisterStep2' ||
+    to.name === 'PlaceRegisterStep3'
+  ) {
+    if (!authStore.isAuthenticated || authStore.userRole !== 'BUSINESS') {
+      showErrorToast('관리자만 접근할 수 있습니다.');
     }
   }
 

@@ -1,5 +1,48 @@
 <script setup>
-// 스크립트 로직 없음 (Pure Content)
+import { onMounted, ref } from 'vue';
+import { getMyProfile, getUserDetail } from '@/api/user.js'; // 유저 상세 조회 API 호출
+
+// 사용자 데이터 구조
+const user = ref({
+  nickname: '',
+  userName: '',
+  email: '',
+  phoneNumber: '',
+  gender: '',
+  birthDate: '',
+  pointBalance: 0,
+  mannerTemperature: 0,
+  introduction: '',
+  profileImageUrl: '',
+});
+
+// 프로필 데이터 불러오기
+const fetchUserProfile = async () => {
+  try {
+    const res = await getMyProfile();
+    console.log(res);
+    const data = res.data.data.member;
+
+    user.value = {
+      nickname: data.nickname,
+      userName: data.user.userName,
+      email: data.user.email,
+      phoneNumber: data.user.contactNumber,
+      gender: data.gender,
+      birthDate: data.birthdate,
+      pointBalance: data.user.pointBalance,
+      mannerTemperature: data.mannerTemperature,
+      introduction: data.introduction,
+      profileImageUrl: data.profileImageUrl,
+    };
+  } catch (error) {
+    console.error('프로필 불러오기 실패', error);
+  }
+};
+
+onMounted(() => {
+  fetchUserProfile();
+});
 </script>
 
 <template>
@@ -7,43 +50,42 @@
     <div class="profile-card">
       <header class="profile-header">
         <img
-          src="https://cdn.pixabay.com/photo/2014/08/29/03/02/horses-430441_1280.jpg"
+          :src="user.profileImageUrl || 'https://via.placeholder.com/120'"
           alt="프로필 이미지"
           class="profile-image"
         />
         <div class="profile-basic">
           <div class="nickname-line">
-            <h2 class="nickname">길동이</h2>
-            <span class="manner-temp">93.5° 매너온도</span>
+            <h2 class="nickname">{{ user.nickname }}</h2>
+            <span class="manner-temp">{{ user.mannerTemperature }}° 매너온도</span>
           </div>
-          <p class="name-email">홍길동 / hong@test.com</p>
+          <p class="name-email">{{ user.userName }} / {{ user.email }}</p>
         </div>
       </header>
 
       <div class="profile-info">
         <div class="info-item">
           <label class="info-label">연락처</label>
-          <div class="info-value">010-1234-5678</div>
+          <div class="info-value">{{ user.phoneNumber }}</div>
         </div>
         <div class="info-item">
           <label class="info-label">성별</label>
-          <div class="info-value">남성</div>
+          <div class="info-value">{{ user.gender === 'M' ? '남성' : '여성' }}</div>
         </div>
         <div class="info-item">
           <label class="info-label">생년월일</label>
-          <div class="info-value">1993-08-15</div>
+          <div class="info-value">{{ user.birthDate }}</div>
         </div>
         <div class="info-item">
           <label class="info-label">포인트 잔액</label>
-          <div class="info-value">12,500P</div>
+          <div class="info-value">{{ user.pointBalance.toLocaleString() }}P</div>
         </div>
       </div>
 
       <section class="introduction-box" aria-label="자기소개 섹션">
         <h3 class="introduction-title">자기소개</h3>
         <p class="introduction-content">
-          안녕하세요! 풋살과 러닝을 좋아하는 홍길동입니다. 주말마다 모임 참여 중이고, 새로운
-          사람들과 함께 뛰는 걸 즐깁니다!
+          {{ user.introduction || '자기소개가 없습니다.' }}
         </p>
       </section>
     </div>
@@ -60,7 +102,7 @@
 }
 
 .profile-image {
-  @apply w-28 h-28 rounded-full object-cover border-4 border-blue-100;
+  @apply w-14 h-14 rounded-full object-cover;
 }
 
 .profile-basic {
