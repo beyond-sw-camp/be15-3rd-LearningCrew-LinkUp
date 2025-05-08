@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, nextTick } from 'vue';
+import { ref, reactive, computed, onMounted, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 
 import SearchSportIcons from '@/features/meeting/components/SearchSportIcons.vue';
@@ -13,11 +13,10 @@ import PendingMeetingsModal from '@/features/meeting/views/PendingMeetingsModal.
 import InterestedMeetingsModal from '@/features/meeting/views/InterestedMeetingsModal.vue';
 import MeetingManageModal from '@/features/meeting/views/MeetingManageModal.vue';
 import ParticipantsModal from '@/features/meeting/views/ParticipantsModal.vue';
-import PlaceMap from '@/features/place/components/PlaceMap.vue'; // ✅ 새로 추가된 부분
+import PlaceMap from '@/features/place/components/PlaceMap.vue';
+import '@/assets/css/search-common.css'
 
-// import '@/assets/css/search-common.css';
 import { fetchMeetingList, getAllMeetings } from '@/api/meeting.js';
-
 const router = useRouter();
 
 const showModal = reactive({
@@ -31,6 +30,7 @@ const showModal = reactive({
 });
 
 const allMeetings = ref([]);
+const meetings = ref([]);
 
 const fetchAllMeetings = async () => {
   try {
@@ -46,12 +46,6 @@ onMounted(() => {
   loadMeetings(true);
 });
 
-function resetModals() {
-  Object.keys(showModal).forEach(key => {
-    showModal[key] = false;
-  });
-}
-
 const regionOptions = [
   { name: '서울특별시', code: 'seoul', children: [{ name: '강남구', code: 'gangnam' }, { name: '서초구', code: 'seocho' }, { name: '마포구', code: 'mapo' }] },
   { name: '경기도', code: 'gyeonggi', children: [{ name: '성남시', code: 'seongnam' }, { name: '수원시', code: 'suwon' }, { name: '고양시', code: 'goyang' }] }
@@ -64,7 +58,6 @@ const sportsList = [
 ];
 
 const selectedSport = ref('');
-const meetings = ref([]);
 const isFloatingMinimized = ref(true);
 
 const filters = reactive({
@@ -94,7 +87,8 @@ function sanitizeFilters(filters) {
 async function loadMeetings(isInitial = false) {
   try {
     const filterParams = isInitial ? {} : sanitizeFilters(filters);
-    meetings.value = await fetchMeetingList(filterParams);
+    const result = await fetchMeetingList(filterParams);
+    meetings.value = result;
 
     console.log('[DEBUG] 불러온 meetings 개수:', meetings.value.length);
     console.log('[DEBUG] meetings 내용:', meetings.value);
@@ -125,15 +119,7 @@ function handleNavigate(action) {
 
   if (Object.keys(map).includes(action)) {
     const key = map[action];
-    const isAlreadyOpen = showModal[key];
-    resetModals();
-    showModal[key] = !isAlreadyOpen;
-  } else if (action === 'myMeetings') {
-    console.log('내 모임 보기');
-  } else if (action === 'admin') {
-    console.warn('admin 기능은 아직 구현되지 않았습니다.');
-  } else {
-    console.error(`알 수 없는 액션: ${action}`);
+    showModal[key] = !showModal[key];
   }
 }
 
@@ -152,7 +138,6 @@ function handleCreatedModal(meeting) {
   selectedMeeting.value = meeting;
   showModal.manage = true;
 }
-
 function handleManageModal() {
   showModal.manage = false;
 }
@@ -186,12 +171,21 @@ function toggleFilterDropdown() {
     });
   }
 }
+
+// ✅ 지도용으로 address, name 포함한 가공 데이터 생성
+const meetingsWithAddress = computed(() =>
+  meetings.value.map(m => ({
+    name: m.placeName || m.title || '제목 없음',
+    address: m.place?.address || '',
+    ...m
+  }))
+);
 </script>
 
 <template>
   <div class="container">
-    <!-- 사이드바 -->
     <div class="sidebar">
+      <!-- 필터 선택 -->
       <div class="filter-toggle-wrap" ref="filterWrap">
         <SearchSportIcons :sports="sportsList" v-model:selected="selectedSport" />
         <button class="filter-chip-button" @click="toggleFilterDropdown">
@@ -199,6 +193,8 @@ function toggleFilterDropdown() {
           필터
         </button>
       </div>
+
+      <!-- 필터 드롭다운 -->
       <div v-show="filterDropdownOpen" class="filter-dropdown-panel-num" :style="dropdownStyle">
         <FilterDropdown
           :filters="filters"
@@ -207,13 +203,14 @@ function toggleFilterDropdown() {
         />
       </div>
 
+      <!-- 전체 모임 리스트 텍스트 (단순 제목) -->
       <div class="all-meeting-list">
         <h4>전체 모임</h4>
         <ul>
           <li
             v-for="meeting in allMeetings"
             :key="meeting.meetingId"
-            style="margin: 4px 0; font-size: 14px;"
+            class="meeting-item"
             @click="goToMeetingDetail(meeting)"
           >
             {{ meeting.title }}
@@ -221,17 +218,20 @@ function toggleFilterDropdown() {
         </ul>
       </div>
 
-      <MeetingCard
-        v-for="meeting in meetings"
-        :key="meeting.id"
-        :meeting="meeting"
-        @click="goToMeetingDetail(meeting)"
-      />
+      <!-- MeetingCard 렌더링 -->
+      <div class="meeting-card-list">
+        <MeetingCard
+          v-for="meeting in meetings"
+          :key="meeting.id"
+          :meeting="meeting"
+          @click="goToMeetingDetail(meeting)"
+        />
+      </div>
     </div>
 
-    <!-- 지도 영역 -->
+    <!-- 지도 -->
     <div class="map-section">
-      <PlaceMap :places="meetings" @select="goToMeetingDetail" />
+      <PlaceMap :places="meetingsWithAddress" @select="goToMeetingDetail" />
     </div>
 
     <!-- 플로팅 네비게이션 -->
@@ -240,28 +240,94 @@ function toggleFilterDropdown() {
       @toggle="isFloatingMinimized = !isFloatingMinimized"
       @navigate="handleNavigate"
     />
-  </div>
 
-  <!-- 모달들 -->
-  <CreateMeetingModal v-if="showModal.create" @close="showModal.create = false" @select="handleCreateModal" />
-  <CreatedMeetingsModal v-if="showModal.created" @close="showModal.created = false" @select="handleCreatedModal" />
-  <MeetingManageModal :visible="showModal.manage" :meeting="selectedMeeting" @close="showModal.manage = false" @select="handleManageModal" />
-  <ParticipatingMeetingsModal v-if="showModal.participated" @close="showModal.participated = false" @select="handleParticipatedModal" />
-  <ParticipantsModal :visible="showModal.participants" :meeting="selectedMeeting" @close="showModal.participants = false" @select="handleParticipantsModal" />
-  <PendingMeetingsModal v-if="showModal.pending" @close="showModal.pending = false" @select="handlePendingModal" />
-  <InterestedMeetingsModal v-if="showModal.interested" @close="showModal.interested = false" @select="handleInterestedModal" />
+    <!-- 모달 영역 -->
+    <CreateMeetingModal v-if="showModal.create" @close="showModal.create = false" @select="handleCreateModal" />
+    <CreatedMeetingsModal v-if="showModal.created" @close="showModal.created = false" @select="handleCreatedModal" />
+    <MeetingManageModal :visible="showModal.manage" :meeting="selectedMeeting" @close="showModal.manage = false" @select="handleManageModal" />
+    <ParticipatingMeetingsModal v-if="showModal.participated" @close="showModal.participated = false" @select="handleParticipatedModal" />
+    <ParticipantsModal :visible="showModal.participants" :meeting="selectedMeeting" @close="showModal.participants = false" @select="handleParticipantsModal" />
+    <PendingMeetingsModal v-if="showModal.pending" @close="showModal.pending = false" @select="handlePendingModal" />
+    <InterestedMeetingsModal v-if="showModal.interested" @close="showModal.interested = false" @select="handleInterestedModal" />
+  </div>
 </template>
 
 <style scoped>
-.sidebar {
-  width: 500px;
-}
 .container {
   display: flex;
   flex-direction: row;
+  height: 100vh;
 }
+
+/* 좌측 사이드바 */
+.sidebar {
+  width: 400px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.filter-toggle-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-chip-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.filter-dropdown-panel-num {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 12px;
+  position: absolute;
+  width: 300px;
+  z-index: 1000;
+}
+
+/* 전체 모임 리스트 텍스트 */
+.all-meeting-list h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.meeting-item {
+  font-size: 14px;
+  padding: 4px 0;
+  color: #333;
+  cursor: pointer;
+}
+
+/* 카드 리스트 정돈 */
+.meeting-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 우측 지도 */
 .map-section {
   flex: 1;
-  height: 100vh;
+  position: relative;
+  height: 100%;
 }
 </style>

@@ -148,4 +148,9 @@ function adjustOverlayScale() {
 .map-container {
   @apply w-full h-full;
 }
+.map-section {
+  flex: 1; /* 남은 공간 모두 차지 */
+  height: 100vh; /* 화면 전체 높이 */
+  position: relative;
+}
 </style>

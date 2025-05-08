@@ -1,15 +1,17 @@
 <template>
-  <div class="complete-container">
-    <div class="checkmark">✅</div>
-    <div class="title">장소 등록 완료</div>
-    <div class="description">
-      장소가 성공적으로 등록되었습니다.<br />
-      이제 운영을 시작할 수 있어요!
-    </div>
+  <div class="page-wrapper">
+    <div class="complete-container">
+      <div class="checkmark">✅</div>
+      <div class="title">장소 등록 완료</div>
+      <div class="description">
+        장소가 성공적으로 등록되었습니다.<br />
+        이제 운영을 시작할 수 있어요!
+      </div>
 
-    <div class="action-buttons">
-      <RouterLink to="/places" class="btn btn-primary">운영 장소 목록으로 이동</RouterLink>
-      <RouterLink to="/" class="btn btn-secondary">메인 페이지로 돌아가기</RouterLink>
+      <div class="action-buttons">
+        <RouterLink to="/places" class="btn btn-primary">운영 장소 목록으로 이동</RouterLink>
+        <RouterLink to="/" class="btn btn-secondary">메인 페이지로 돌아가기</RouterLink>
+      </div>
     </div>
   </div>
 </template>
@@ -21,16 +23,15 @@ import { RouterLink } from 'vue-router';
 <style scoped>
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
-body {
-  margin: 0;
-  font-family: 'Pretendard', sans-serif;
-  background-color: #f1f3fc;
-  color: #1a1a1a;
+.page-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px;
+  background-color: #f1f3fc;
+  font-family: 'Pretendard', sans-serif;
+  color: #1a1a1a;
 }
 
 .complete-container {
