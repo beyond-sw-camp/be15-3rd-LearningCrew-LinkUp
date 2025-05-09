@@ -120,7 +120,7 @@ onMounted(async () => {
       alert('게시글 정보를 불러오지 못했습니다.');
       console.error(err);
     }
-  } else {
+  }else if (route.name === 'CommunityCreateView') {
     const postData = route?.state?.post;
     if (postData) {
       post.value.title = postData.title;
@@ -128,6 +128,14 @@ onMounted(async () => {
       post.value.isNotice = postData.isNotice === 'Y';
     }
   }
+  // } else {
+  //   const postData = route?.state?.post;
+  //   if (postData) {
+  //     post.value.title = postData.title;
+  //     post.value.content = postData.content;
+  //     post.value.isNotice = postData.isNotice === 'Y';
+  //   }
+  // }
 });
 
 // 이미지 업로드/삭제 함수 동일
@@ -153,7 +161,7 @@ const removeImage = (index) => {
   const existingIndex = existingImageUrls.value.indexOf(previewUrl);
 
   if (existingIndex !== -1) {
-    existingImageUrls.value.splice(existingIndex, 1); // ✅ 추가됨: 기존 이미지 제거
+    existingImageUrls.value.splice(existingIndex, 1); //
   } else {
     selectedFiles.value.splice(index, 1); // 새로 추가된 파일 제거
   }
@@ -163,8 +171,10 @@ const removeImage = (index) => {
 
 const goToPostDetail = () => {
   isPopupVisible.value = false;
-  router.push(`/community/${createdPostId.value}`);
+  router.replace({ path: `/community/${createdPostId.value}`, state: null });
 };
+  // router.push(`/community/${createdPostId.value}`);
+// };
 
 const goToDetailInstead = () => {
   router.push(`/community/${postId.value}`);

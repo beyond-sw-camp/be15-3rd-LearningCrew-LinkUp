@@ -1,9 +1,20 @@
 import api from '@/api/axios.js';
 
 // 게시글 목록 불러오기 (페이징)
-export const fetchPosts = (page, size) => {
-    return api.get(`/common-service/posts?page=${page}&size=${size}`);
+// export const fetchPosts = (page, size) => {
+//     return api.get(`/common-service/posts?page=${page}&size=${size}`);
+// };
+export const fetchPosts = (page, size, searchType, keyword) => {
+    return api.get('/common-service/posts', {
+        params: {
+            page,
+            size,
+            searchType,
+            keyword,
+        },
+    });
 };
+
 const fetchPostById = (id) => api.get(`/common-service/posts/${id}`);
 
 const createComment = (postId, commentContent, userId) => {
