@@ -7,7 +7,7 @@ import FloatingNav from '@/features/meeting/components/FloatingNav.vue'
 import MeetingCard from '@/features/meeting/components/MeetingCard.vue'
 import CreateMeetingModal from '@/features/meeting/views/CreateMeetingModal.vue';
 
-import '@/assets/css/search-common.css'
+// import '@/assets/css/search-common.css'
 import { useRouter } from 'vue-router';
 import CreatedMeetingsModal from '@/features/meeting/views/CreatedMeetingsModal.vue';
 import ParticipatingMeetingsModal from '@/features/meeting/views/ParticipatingMeetingsModal.vue';
@@ -19,6 +19,7 @@ import api from '@/api/axios.js';
 import FullVertialCenterLayout from "@/components/layout/FullVertialCenterLayout.vue";
 import Backdrop from "@/components/layout/Backdrop.vue";
 import {fetchMeetingList, getAllMeetings } from "@/api/meeting.js";
+import SidebarMainLayout from '@/components/layout/SidebarMainLayout.vue';
 
 const router = useRouter();
 
@@ -88,14 +89,6 @@ const filters = reactive({
 const filterDropdownOpen = ref(false)
 const filterWrap = ref(null)
 const dropdownStyle = ref({})
-
-// 모임 리스트 더미 데이터
-
-
-// const dummyMeetings = [
-//   { id: 1, title: '강남 주말 풋살 모임', address: '서울 강남구 역삼동 123', status: '모집중', createdAt: '2025-05-01T10:00:00Z', thumbnailUrl: '' },
-//   { id: 2, title: '서초구 평일 테니스', address: '서울 서초구 반포동 456', status: '모집완료', createdAt: '2025-04-28T14:30:00Z', thumbnailUrl: '' }
-// ]
 
 onMounted(() => {
   // 초기에는 필터 없이 전체 조회
@@ -250,9 +243,9 @@ function toggleFilterDropdown() {
 </script>
 
 <template>
-  <div class="container">
+  <SidebarMainLayout width="500px">
     <!-- 사이드바 -->
-    <div class="sidebar">
+    <template #sidebar>
       <div class="filter-toggle-wrap" ref="filterWrap">
         <SearchSportIcons :sports="sportsList" v-model:selected="selectedSport" />
 
@@ -271,28 +264,27 @@ function toggleFilterDropdown() {
         </div>
 
       <!-- 전체 모임 목록 추가 -->
-      <div class="all-meeting-list">
-        <h4>전체 모임</h4>
-        <ul>
-          <li
-              v-for="meeting in allMeetings"
-              :key="meeting.meetingId"
-              style="margin: 4px 0; font-size: 14px;"
-              @click="goToMeetingDetail(meeting.meetingId)"
-          >
-            {{ meeting.title }}
-          </li>
-        </ul>
-      </div>
+<!--      <div class="all-meeting-list">-->
+<!--        <h4>전체 모임</h4>-->
+<!--        <ul>-->
+<!--          <li-->
+<!--              v-for="meeting in allMeetings"-->
+<!--              :key="meeting.meetingId"-->
+<!--              style="margin: 4px 0; font-size: 14px;"-->
+<!--              @click="goToMeetingDetail(meeting.meetingId)"-->
+<!--          >-->
+<!--            {{ meeting.title }}-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
 
       <!-- 모임 카드 리스트 -->
-      <MeetingCard v-for="meeting in meetings" :key="meeting.id" :meeting="meeting" @click="goToMeetingDetail(meeting.meetingId)" />
-    </div>
-
+      <MeetingCard v-for="meeting in meetings" :key="meeting.meetingId" :meeting="meeting" @click="goToMeetingDetail(meeting.meetingId)" />
+    </template>
     <!-- 지도 -->
-    <div class="map-section">
+    <template #main>
       <MapDisplay :items="meetings" mapType="meeting" />
-    </div>
+
 
     <!-- 플로팅 네비게이션 -->
     <FloatingNav
@@ -300,7 +292,7 @@ function toggleFilterDropdown() {
       @toggle="isFloatingMinimized = !isFloatingMinimized"
       @navigate="handleNavigate"
     />
-  </div>
+
 
     <!-- 모임 개설 모달 -->
     <CreateMeetingModal v-if="showModal.create" @close="showModal.create = false" @select="handleCreateModal"/>
@@ -316,7 +308,8 @@ function toggleFilterDropdown() {
     <PendingMeetingsModal v-if="showModal.pending" @close="showModal.pending = false" @select="handlePendingModal" />
     <!-- 찜한 모임 모달 -->
     <InterestedMeetingsModal v-if="showModal.interested" @close="showModal.interested = false" @select="handleInterestedModal" />
-
+    </template>
+  </SidebarMainLayout>
 </template>
 
 
@@ -325,8 +318,50 @@ function toggleFilterDropdown() {
   width: 500px;
 }
 
-.container {
+.filter-toggle-wrap {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.filter-toggle-btn {
+  max-height: 35px;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+.filter-toggle-btn:hover {
+  background-color: #dde4f3;
+}
+
+.sport-filter-bar {
+  background: #f8f9fb;
+  padding: 14px 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1px solid #e0e0e0;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #d0d7de transparent; /* Firefox */
+}
+
+.filter-chip-button {
+  @apply flex-shrink-0 flex gap-2 ml-4 px-6 py-3 border border-border-subtle rounded-md text-sm text-text-default;
+}
+
+.filter-chip-button {
+  margin-left: 12px;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 24px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 </style>

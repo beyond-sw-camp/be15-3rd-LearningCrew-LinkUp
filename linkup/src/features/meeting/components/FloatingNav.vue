@@ -63,3 +63,57 @@ function handleNavigate(type) {
     </template>
   </div>
 </template>
+
+<style scoped>
+.floating-nav {
+  position: fixed;
+  top: 100px;
+  right: 24px;
+  background: #F3F6FF;
+  border-radius: 40px;
+  padding: 16px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+}
+.floating-nav.min {
+  padding: 5px; /* Adjust padding for circular shape */
+  width: 60px;  /* Set a fixed width */
+  height: 60px; /* Set a fixed height */
+  border-radius: 50%; /* Make it circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+.nav-btn {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.nav-btn:hover,
+.nav-btn.active {
+  background-color: #D4E5FF;
+}
+.floating-nav hr {
+  width: 60%;
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 10px 0;
+}
+</style>

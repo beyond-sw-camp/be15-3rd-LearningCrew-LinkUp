@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import '@/assets/css/admin-styles.css'
+// import '@/assets/css/admin-styles.css'
 
 const props = defineProps({
   menuItems: {
