@@ -35,14 +35,28 @@
     </div>
 
     <div class="like-section" @click="toggleLike" style="cursor: pointer;">
-           <span v-if="isLiked">
-        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>
-      </span>
-      <span v-else>
-        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />
-      </span>
+      <span @click.stop="toggleLike(post.postId)">
+  <img
+      v-if="isLiked"
+      src="@/assets/icons/community/heart.svg"
+      alt="하트"
+      class="like-icon"
+  />
+  <img
+      v-else
+      src="@/assets/icons/community/empty_heart.svg"
+      alt="빈하트"
+      class="like-icon"
+  />
+</span>
+<!--           <span v-if="isLiked">-->
+<!--        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>-->
+<!--      </span>-->
+<!--      <span v-else>-->
+<!--        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />-->
+<!--      </span>-->
       {{ post?.likeCount || 0 }}
-
+</div>
 
 
 
@@ -102,14 +116,16 @@
             {{ comment.nickname }}
           </span>
               <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
-              <span class="comment-like">❤️ {{ comment.likeCount || 0 }}</span>
+              <span class="comment-like" @click.stop="toggleCommentLike(comment.commentId)">
+               ❤️ {{ comment.likeCount || 0 }}
+              </span>
             </div>
             <p class="comment-content">{{ comment.commentContent }}</p>
           </div>
         </div>
       </div>
     </div>
-    </div>
+
 
     <!-- 미니 프로필 컴포넌트 삽입 예정 위치 -->
     <UserMiniProfile
@@ -241,6 +257,30 @@ const deletePost = async () => {
   } catch (e) {
     console.error('게시글 삭제 실패:', e.response?.data || e.message);
     alert('삭제 중 오류가 발생했습니다.');
+  }
+};
+
+const toggleCommentLike = async (commentId) => {
+  try {
+    const userId = authStore.userId;
+    const comment = post.value.comments.find(c => c.commentId === commentId);
+    if (!comment) return;
+
+    if (comment.isLiked) {
+      await api.unlikeComment(commentId, userId);
+      comment.likeCount--;
+    } else {
+      await api.likeComment(commentId, userId);
+      comment.likeCount++;
+    }
+
+
+    comment.isLiked = !comment.isLiked;
+    post.value.comments[comment] = comment; // ✅ 반응형 갱신
+
+  } catch (e) {
+    console.error('댓글 좋아요 실패:', e.response?.data || e.message);
+    alert('댓글 좋아요 처리 중 오류가 발생했습니다.');
   }
 };
 
