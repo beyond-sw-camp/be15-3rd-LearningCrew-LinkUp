@@ -514,14 +514,24 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 > 프론트엔드 테스트 케이스 상세
 
-<img src="assets/test_cases/meeting/step46-participant-review.PNG" alt="STEP66 모임 목록 조회"/>
+#### 모임
+- STEP46 모임 목록 조회
+<img src="assets/test_cases/meeting/step46-participant-review.PNG" alt="STEP46 참가자 평가"/>
+- STEP66 모임 목록 조회
 <img src="assets/test_cases/meeting/step66-meetings.png" alt="STEP66 모임 목록 조회"/>
+- STEP67 모임 상세 조회
 <img src="assets/test_cases/meeting/step67-meeting-detail.png" alt="STEP67 모임 상세 조회"/>
+- STEP68 개설 모임 목록 조회
 <img src="assets/test_cases/meeting/step68-created-meetings.PNG" alt="STEP68 개설 모임 목록 조회"/>
+- STEP69 참가 모임 목록 조회
 <img src="assets/test_cases/meeting/step69-participating-meetings.PNG" alt="STEP69 참가 모임 목록 조회"/>
+- STEP70 참가 신청 모임 목록 조회
 <img src="assets/test_cases/meeting/step70-pending-meetings.PNG" alt="STEP70 참가 신청 모임 목록 조회"/>
+- STEP71 모임 찜 관리
 <img src="assets/test_cases/meeting/step71-interested-meetings.PNG" alt="STEP71 모임 찜 관리"/>
+- STEP72 개설 모임 관리
 <img src="assets/test_cases/meeting/step72-manage-meeting.PNG" alt="STEP72 개설 모임 관리"/>
+- STEP73 참가자 목록 조회
 <img src="assets/test_cases/meeting/step73-meeting-participants.PNG" alt="STEP73 참가자 목록 조회"/>
 
 <br>
