@@ -9,14 +9,20 @@
         loading="lazy"
     />
     <div class="post-content">
+      <div class="post-header">
       <!-- 공지사항이면 별도 스타일 적용 -->
       <div class="post-title" :class="{ 'notice-title': post.isNotice === 'Y' }">
         {{ post.title }}
       </div>
+        <span class="created-at">{{ formatDate(post.createdAt) }}</span>
+      </div>
+
       <!-- 공지사항이 아닐 때만 내용 표시 -->
       <div class="post-text" v-if="post.isNotice !== 'Y'">{{ post.content }}</div>
+
+
       <div class="post-footer">
-        <span>{{ formatDate(post.createdAt) }}</span>
+        <span class="nickname">{{ post.nickname }}</span>
         <!-- 공지사항이 아닐 때만 좋아요/댓글 수 표시 -->
         <div v-if="post.isNotice !== 'Y'" class="likes-comments">
           ❤️ {{ post.likeCount || 0 }} 💬 {{ post.commentCount || 0 }}
@@ -112,4 +118,13 @@ const formatDate = (dateStr) => {
 .likes-comments {
   white-space: nowrap;
 }
+
+.post-header {
+  display: flex;
+  justify-content: space-between; /* 왼쪽/오른쪽 정렬 */
+  align-items: center;
+  margin-bottom: 6px;
+}
 </style>
+
+
