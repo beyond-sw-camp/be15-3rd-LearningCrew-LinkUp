@@ -51,9 +51,9 @@ const statusName = (id) => {
         <div class="assignment-card"
              v-for="meeting in meetings"
              :key="meeting.meetingId"
-             onclick="$emit('select', meeting)"
+             @click="$emit('select', meeting)"
         >
-          <img src="../img/place_img1.png" alt="썸네일" class="assignment-thumb" />
+          <img src="https://cdn.pixabay.com/photo/2019/03/10/14/04/table-tennis-4046278_640.jpg" alt="썸네일" class="assignment-thumb" />
           <div class="assignment-content">
             <div class="assignment-title"> {{meeting.meetingTitle}} </div>
             <div class="assignment-address"> {{ meeting.placeName || meeting.customPlaceAddress }} </div>

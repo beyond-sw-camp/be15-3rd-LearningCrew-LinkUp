@@ -20,6 +20,7 @@ import FullVertialCenterLayout from "@/components/layout/FullVertialCenterLayout
 import Backdrop from "@/components/layout/Backdrop.vue";
 import {fetchMeetingList, getAllMeetings } from "@/api/meeting.js";
 import SidebarMainLayout from '@/components/layout/SidebarMainLayout.vue';
+import PlaceMap from '@/features/place/components/PlaceMap.vue';
 
 const router = useRouter();
 
@@ -281,11 +282,19 @@ function toggleFilterDropdown() {
       <!-- 모임 카드 리스트 -->
       <MeetingCard v-for="meeting in meetings" :key="meeting.meetingId" :meeting="meeting" @click="goToMeetingDetail(meeting.meetingId)" />
     </template>
-    <!-- 지도 -->
+    <!-- 지도: placeId가 null이 아닐 때만 -->
     <template #main>
-      <MapDisplay :items="meetings" mapType="meeting" />
-
-
+      <PlaceMap
+        :places="meetings
+      .filter(m => m.placeId !== null)
+      .map(m => ({
+        // place 객체의 모든 필드
+        ...m.place,
+        // 여기에 meetingId를 같이 붙여준다
+        meetingId: m.meetingId
+      }))"
+        @select="p => goToMeetingDetail(p.meetingId)"
+      />
     <!-- 플로팅 네비게이션 -->
     <FloatingNav
       :minimized="isFloatingMinimized"
