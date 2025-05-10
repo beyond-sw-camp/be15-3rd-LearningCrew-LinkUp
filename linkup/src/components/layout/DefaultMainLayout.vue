@@ -25,7 +25,7 @@ const props = defineProps({
 }
 
 .main-wrapper {
-  @apply relative flex-1 min-w-[300px] mx-auto bg-white rounded-sm shadow-md p-[40px] z-20 flex flex-col;
+  @apply relative flex-1 min-w-[300px] mx-auto bg-white rounded-sm shadow-md p-[40px] z-20 flex flex-col h-full;
 }
 
 @media (max-width: 768px) {

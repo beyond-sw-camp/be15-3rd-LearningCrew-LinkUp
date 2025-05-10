@@ -50,7 +50,7 @@ function onSubmit() {
         <RouterLink to="/password/reset" class="login-link"> 비밀번호 찾기 </RouterLink>
         <RouterLink to="/recover" class="recovery-link"> 계정 복구 신청 </RouterLink>
       </div>
-      <RouterLink to="/signup" class="login-link"> 회원가입 </RouterLink>
+      <RouterLink to="/signup/agree" class="login-link"> 회원가입 </RouterLink>
     </nav>
   </section>
 </template>

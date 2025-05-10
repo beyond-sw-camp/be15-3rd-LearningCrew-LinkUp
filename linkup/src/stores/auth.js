@@ -99,19 +99,19 @@ export const useAuthStore = defineStore('auth', () => {
       // SSE 연결 시작
       connectSse(userId.value);
     } catch (err) {
-      showErrorToast('로그인에 실패했습니다.');
       throw err;
     }
   }
 
   async function logout() {
-    try {
-      await logoutUser();
-    } catch (err) {
-      console.error('로그아웃 요청 실패', err);
-    } finally {
-      clearAuth();
+    if (accessToken.value) {
+      try {
+        await logoutUser();
+      } catch (err) {
+        console.error('로그아웃 요청 실패', err);
+      }
     }
+    clearAuth();
   }
 
   async function refresh() {

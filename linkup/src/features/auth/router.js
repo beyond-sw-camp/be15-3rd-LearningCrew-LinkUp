@@ -1,5 +1,3 @@
-import SignupView from '@/features/auth/views/SignupView.vue';
-
 export const authRoutes = [
   {
     path: '/login',
@@ -32,30 +30,37 @@ export const authRoutes = [
         component: () => import('@/features/auth/views/SignupBusinessAccountView.vue'),
       },
       {
-        path: 'account/success',
-        name: 'signup-success',
-        component: () => import('@/features/auth/views/SignupSuccessView.vue'),
-      },
-      {
-        path: 'account/fail',
-        name: 'signup-fail',
-        component: () => import('@/features/auth/views/SignupFailView.vue'),
+        path: 'complete',
+        name: 'signup-complete-account',
+        component: () => import('@/features/auth/views/SignupCompleteView.vue'),
+        props: (route) => ({ isSuccess: route.query.success === 'true' }),
       },
     ],
   },
   {
     path: '/password/reset',
-    name: 'reset-password',
+    name: 'reset-password-link',
     component: () => import('@/features/auth/views/ResetPasswordView.vue'),
   },
   {
     path: '/reset-password',
-    name: 'ResetPassword',
+    name: 'reset-password',
     component: () => import('@/features/auth/views/ResetPasswordFormView.vue'),
   },
   {
     path: '/recover',
     name: 'recover-account',
     component: () => import('@/features/auth/views/RecoverAccountView.vue'),
+  },
+  {
+    path: '/email-verification',
+    name: 'email-verification',
+    component: () => import('@/features/auth/views/EmailVerification.vue'),
+  },
+  {
+    path: '/verify-result',
+    name: 'email-verify-result',
+    component: () => import('@/features/auth/views/VerifyResultView.vue'),
+    props: (route) => ({ isSuccess: route.query.success === 'true' }), // 쿼리 파라미터로 전달받은 success 여부를 props로 전달
   },
 ];

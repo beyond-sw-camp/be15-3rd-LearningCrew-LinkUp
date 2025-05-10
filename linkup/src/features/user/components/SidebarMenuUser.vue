@@ -4,7 +4,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.js';
 import { RouterLink, useRouter } from 'vue-router';
 import TossPaymentModal from '@/features/point/components/TossPaymentModal.vue';
-import { usePointPayment } from "@/features/point/composables/usePointPayment.js";
+import { usePointPayment } from '@/features/point/composables/usePointPayment.js';
 
 const userInfo = ref(null);
 const isLoading = ref(true);
@@ -16,8 +16,6 @@ const router = useRouter();
 const showPaymentModal = ref(false); // 추가
 
 const { confirmPointPayment } = usePointPayment();
-
-
 
 onMounted(async () => {
   try {
@@ -50,23 +48,13 @@ const navigationItems = computed(() => [
   { name: 'points', label: '포인트 내역', path: '/mypage/points' },
   { name: 'posts', label: '작성한 게시글', path: '/mypage/posts' },
   { name: 'comments', label: '작성한 댓글', path: '/mypage/comments' },
-  { name: 'friends', label: '친구 목록', path: '/mypage/friends' },
+  { name: 'friends', label: '친구 신청 목록', path: '/mypage/friends/request' },
+  { name: 'friends', label: '친구 목록', path: '/mypage/friends/accepted' },
   { name: 'friend-meetings', label: '친구 개설 모임', path: '/mypage/friend-meetings' },
+  { name: 'account', label: '계좌 조회', path: '/mypage/account' },
   { name: 'password', label: '비밀번호 변경', path: '/mypage/password' },
 ]);
 
-// const handlePaymentComplete = async ({ amount, orderId, paymentKey }) => {
-//   console.log('🧾 결제 완료 후 받은 데이터:', { amount, orderId, paymentKey });
-//   const success = await confirmPointPayment({ amount, orderId, paymentKey });
-//   if (success) {
-//     console.log('✅ 결제 확인 및 포인트 증가 완료');
-//     await fetchPoint(); // 서버 기준 포인트 다시 반영
-//     showPaymentModal.value = false;
-//   } else {
-//     console.error('❌ 결제 확인 실패');
-//     alert('포인트 충전에 실패했어요. 다시 시도해주세요.');
-//   }
-// };
 const handlePaymentComplete = async ({ amount, orderId, paymentKey }) => {
   console.log('🧾 결제 완료 후 받은 데이터:', { amount, orderId, paymentKey });
   const success = await confirmPointPayment({ amount, orderId, paymentKey });
@@ -94,7 +82,7 @@ const handlePaymentComplete = async ({ amount, orderId, paymentKey }) => {
       <section class="profile-section">
         <img :src="userInfo.profileImageUrl" alt="프로필 이미지" class="profile-img" />
         <h2 class="profile-name">{{ userInfo.userName }}</h2>
-        <button type="button" class="edit-profile-btn">프로필 수정</button>
+        <RouterLink to="/mypage/profile/edit" class="edit-profile-btn"> 프로필 수정 </RouterLink>
 
         <!-- 상태 카드 -->
         <div class="status-boxes">
@@ -129,9 +117,9 @@ const handlePaymentComplete = async ({ amount, orderId, paymentKey }) => {
     </template>
   </aside>
   <TossPaymentModal
-      :visible="showPaymentModal"
-      @close="showPaymentModal = false"
-      @complete="handlePaymentComplete"
+    :visible="showPaymentModal"
+    @close="showPaymentModal = false"
+    @complete="handlePaymentComplete"
   />
 </template>
 

@@ -1,7 +1,7 @@
 <script setup>
 import SidebarMainLayout from '@/components/layout/SidebarMainLayout.vue';
 import SidebarMenuBusiness from '@/features/user/components/SidebarMenuBusiness.vue';
-import { useAuthStore } from '@/stores/auth.js';
+import DefaultMainLayout from '@/components/layout/DefaultMainLayout.vue';
 </script>
 
 <template>
@@ -11,7 +11,9 @@ import { useAuthStore } from '@/stores/auth.js';
     </template>
 
     <template #main>
-      <RouterView />
+      <DefaultMainLayout main-class="w-[600px]">
+        <RouterView />
+      </DefaultMainLayout>
     </template>
   </SidebarMainLayout>
 </template>

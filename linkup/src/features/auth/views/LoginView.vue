@@ -16,7 +16,13 @@ const handleLogin = async (formData) => {
     if (redirectPath) {
       await router.replace(redirectPath);
     } else {
-      await router.replace('/');
+      if (authStore.userRole === 'USER') {
+        await router.replace('/mypage/profile');
+      } else if (authStore.userRole === 'BUSINESS') {
+        await router.replace('/mypage-business');
+      } else {
+        await router.replace('/');
+      }
     }
   } catch (e) {
     console.log(e);
