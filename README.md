@@ -550,6 +550,8 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 - STEP23~24 복구완료
 <img src="assets/test_cases/user/step23-24-recover.gif" alt="STEP21-22 복구완료"/>
 
+</details>
+
 <details>
 <summary>포인트</summary>
 
