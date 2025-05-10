@@ -17,33 +17,33 @@ const fetchParticipants = async () => {
   isLoading.value = true;
 
   try {
-    const response = await api.get(`/common-service/my/meetings/${meetingId}/participation`, {
-      params: {requesterId: reviewerId, memberId: reviewerId}
-    });
-    participants.value = response.data.data.participants;
-    // participants.value = [
-    //   {
-    //     reviewerId: reviewerId,
-    //     revieweeId: 1,
-    //     revieweeNickname: '방구석메시',
-    //     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-    //     score: null
-    //   },
-    //   {
-    //     reviewerId: reviewerId,
-    //     revieweeId: 2,
-    //     revieweeNickname: '헬린이',
-    //     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-    //     score: null
-    //   },
-    //   {
-    //     reviewerId: reviewerId,
-    //     revieweeId: 3,
-    //     revieweeNickname: '메시',
-    //     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-    //     score: null
-    //   },
-    // ];
+    // const response = await api.get(`/common-service/my/meetings/${meetingId}/participation`, {
+    //   params: {requesterId: reviewerId, memberId: reviewerId}
+    // });
+    // participants.value = response.data.data.participants;
+    participants.value = [
+      {
+        reviewerId: reviewerId,
+        revieweeId: 1,
+        revieweeNickname: '방구석메시',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        score: null
+      },
+      {
+        reviewerId: reviewerId,
+        revieweeId: 2,
+        revieweeNickname: '헬린이',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        score: null
+      },
+      {
+        reviewerId: reviewerId,
+        revieweeId: 3,
+        revieweeNickname: '메시',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        score: null
+      },
+    ];
     isLoading.value = false;
   } catch (e) {
     console.error('참가자 조회 실패', e);
@@ -56,7 +56,7 @@ onMounted(() => {
 
 const handleRate = ({ revieweeId, value }) => {
   const p = participants.value.find((p) => p.revieweeId === revieweeId);
-    p.score = p.score === value ? null : value;
+  p.score = p.score === value ? null : value;
 };
 
 const submitRatings = async () => {
@@ -78,12 +78,12 @@ const submitRatings = async () => {
   };
   console.log(requestData);
 
-  try {
-    const response = await api.post(`/common-service/meetings/${meetingId}/review`, requestData);
-    console.log('제출 완료', response.data);
-  } catch (e) {
-    console.log('제출 실패', e);
-  }
+  // try {
+  //   const response = await api.post(`/common-service/meetings/${meetingId}/review`, requestData);
+  //   console.log('제출 완료', response.data);
+  // } catch (e) {
+  //   console.log('제출 실패', e);
+  // }
 };
 </script>
 

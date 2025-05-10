@@ -26,13 +26,13 @@ const filteredParticipants = computed(() =>
     <div class="participant-rating-container">
       <h2>참가자 평가</h2>
       <div class="participant-list">
-        <template v-for="participant in filteredParticipants" :key="participant.memberId">
+        <template v-for="participant in filteredParticipants" :key="participant.revieweeId">
           <div class="applicant">
             <div class="applicant-left">
               <div class="applicant-photo">
                 <img :src="participant.profileImageUrl" alt="프로필 사진" />
               </div>
-              <p class="nickname">{{ participant.nickname }}</p>
+              <p class="nickname">{{ participant.revieweeNickname }}</p>
             </div>
             <div class="star-rating">
               <span
@@ -40,7 +40,7 @@ const filteredParticipants = computed(() =>
                 :key="star"
                 class="star"
                 :class="{ selected: star <= participant.score }"
-                @click="handleClick(participant.memberId, star)"
+                @click="handleClick(participant.revieweeId, star)"
               ></span>
             </div>
           </div>
