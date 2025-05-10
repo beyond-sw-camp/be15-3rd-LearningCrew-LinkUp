@@ -1,8 +1,7 @@
 <script setup>
-
+// import '@/assets/css/init-styles.css'
 
 </script>
-
 
 <template>
   <footer class="business-footer-dark">
@@ -26,6 +25,7 @@
     </div>
   </footer>
 </template>
+
 <style scoped>
 
 * {
@@ -137,5 +137,5 @@ a {
   color: #555;
   margin-top: 12px;
 }
-</style>
 
+</style>

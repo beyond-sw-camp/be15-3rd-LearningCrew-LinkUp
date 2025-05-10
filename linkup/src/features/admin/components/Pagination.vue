@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import '@/assets/css/admin-styles.css'
+// import '@/assets/css/admin-styles.css'
 
 const props = defineProps({
   currentPage: Number,

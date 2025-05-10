@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router';
 import MapDisplay from '@/components/common/MapDisplay.vue'
-
+import SidebarMainLayout from '@/components/layout/SidebarMainLayout.vue';
 
 const router = useRouter();
 
@@ -22,9 +22,9 @@ function goToCreate() {
 </script>
 
 <template>
-  <div class="container">
+  <SidebarMainLayout width="500px">
     <!-- 사이드바 -->
-    <div class="sidebar">
+    <template #sidebar>
       <div class="filter-toggle-wrap" ref="filterWrap">
         위도: <input type="number" v-model="latitude" class="input-box" readonly/>
         경도: <input type="number" v-model="longitude" class="input-box" readonly/>
@@ -33,14 +33,13 @@ function goToCreate() {
 
       <!--      &lt;!&ndash; 모임 카드 리스트 &ndash;&gt;-->
       <!--      <MeetingCard v-for="meeting in meetings" :key="meeting.id" :meeting="meeting" />-->
-    </div>
+    </template>
 
     <!-- 지도 -->
-    <div class="map-section">
+    <template #main>
       <!--      <MapDisplay :items="meetings" mapType="meeting" />-->
-    </div>
-  </div>
-
+  </template>
+  </SidebarMainLayout>
 </template>
 
 
@@ -52,6 +51,37 @@ function goToCreate() {
 .container {
   display: flex;
   flex-direction: row;
+}
+
+.filter-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.filter-toggle-btn {
+  max-height: 35px;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+.filter-toggle-btn:hover {
+  background-color: #dde4f3;
+}
+
+.sport-filter-bar {
+  background: #f8f9fb;
+  padding: 14px 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-bottom: 1px solid #e0e0e0;
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #d0d7de transparent; /* Firefox */
 }
 
 .btn {

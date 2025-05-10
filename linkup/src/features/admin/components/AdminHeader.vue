@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 import { adminNavItems } from '@/features/admin/constants/adminNavItems.js'
-import '@/assets/css/admin-styles.css'
+// import '@/assets/css/admin-styles.css'
 
 const route = useRoute()
 
