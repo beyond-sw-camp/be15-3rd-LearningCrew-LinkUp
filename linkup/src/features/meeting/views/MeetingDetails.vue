@@ -94,95 +94,95 @@ const formattedLevel = computed(() => meeting.value?.level?.replaceAll(',', ', '
 
 const formattedAge = computed(() => {
   return (
-      meeting.value?.ageGroup
-          ?.replace('70+', '70')
-          .split(',')
-          .map((age) => (age === '70' ? '70대 이상' : `${age}대`))
-          .join(', ') || ''
+    meeting.value?.ageGroup
+      ?.replace('70+', '70')
+      .split(',')
+      .map((age) => (age === '70' ? '70대 이상' : `${age}대`))
+      .join(', ') || ''
   );
 });
 </script>
 
 <template>
   <div class="layout-wrapper">
-  <div v-if="isLoading">
-    <p>모임 정보를 불러오는 중입니다...</p>
-  </div>
+    <div v-if="isLoading">
+      <p>모임 정보를 불러오는 중입니다...</p>
+    </div>
 
-  <div v-else-if="!meeting">
-    <p>모임 정보를 불러올 수 없습니다.</p>
-  </div>
+    <div v-else-if="!meeting">
+      <p>모임 정보를 불러올 수 없습니다.</p>
+    </div>
 
-  <div v-else>
-    <MeetingDetailLayout
+    <div v-else>
+      <MeetingDetailLayout
         :title="meeting.meetingTitle"
         :address="meeting.place.address"
         :image="meeting.image"
-    >
-      <template #description>
-        <section class="desc">{{ meeting.meetingContent }}</section>
-      </template>
+      >
+        <template #description>
+          <section class="desc">{{ meeting.meetingContent }}</section>
+        </template>
 
-      <template #details>
-        <section class="section">
-          <h2>모임 일정</h2>
-          {{ meeting.date }} ({{ dayName }}) {{ meeting.startTime }} - {{ meeting.endTime }}
-        </section>
-        <section class="section">
-          <h2>종목</h2>
-          {{ meeting.sportName }}
-        </section>
-        <section class="section">
-          <h2>모집 인원</h2>
-          {{ meeting.participantCount }}명/{{ meeting.maxUser }}명 (최소 인원: {{ meeting.minUser }}명)
-        </section>
-        <section class="section">
-          <h2>참가비</h2>
-          {{ meeting.participationFee.toLocaleString() }}원
-        </section>
-        <table class="meeting-details-table">
-          <tr>
-            <td>
-              <section class="section">
-                <h2>성별</h2>
-                {{ displayGender }}
-              </section>
-            </td>
-            <td>
-              <section class="section">
-                <h2>실력</h2>
-                {{ formattedLevel }}
-              </section>
-            </td>
-            <td>
-              <section class="section">
-                <h2>나이대</h2>
-                {{ formattedAge }}
-              </section>
-            </td>
-          </tr>
-        </table>
-      </template>
+        <template #details>
+          <section class="section">
+            <h2>모임 일정</h2>
+            {{ meeting.date }} ({{ dayName }}) {{ meeting.startTime }} - {{ meeting.endTime }}
+          </section>
+          <section class="section">
+            <h2>종목</h2>
+            {{ meeting.sportName }}
+          </section>
+          <section class="section">
+            <h2>모집 인원</h2>
+            {{ meeting.participantCount }}명/{{ meeting.maxUser }}명 (최소 인원: {{ meeting.minUser }}명)
+          </section>
+          <section class="section">
+            <h2>참가비</h2>
+            {{ meeting.participationFee.toLocaleString() }}원
+          </section>
+          <table class="meeting-details-table">
+            <tr>
+              <td>
+                <section class="section">
+                  <h2>성별</h2>
+                  {{ displayGender }}
+                </section>
+              </td>
+              <td>
+                <section class="section">
+                  <h2>실력</h2>
+                  {{ formattedLevel }}
+                </section>
+              </td>
+              <td>
+                <section class="section">
+                  <h2>나이대</h2>
+                  {{ formattedAge }}
+                </section>
+              </td>
+            </tr>
+          </table>
+        </template>
 
-      <template #extra>
-        <MeetingParticipants :leader="meeting.leader" />
-      </template>
+        <template #extra>
+          <MeetingParticipants :leader="meeting.leader" />
+        </template>
 
-      <template #footer>
-        <button class="button" @click="showCreateModal">참가 신청하기</button>
-      </template>
-    </MeetingDetailLayout>
+        <template #footer>
+          <button class="button" @click="showCreateModal">참가 신청하기</button>
+        </template>
+      </MeetingDetailLayout>
 
-<!--      <div v-if="showModal === true" class="modal">-->
-<!--        <div class="modal-content">-->
-<!--          모임 참가를 신청하시겠습니까?-->
-<!--          <div class="modal-buttons">-->
-<!--          <button class="accept" @click="handleCreateParticipation">예</button>-->
-<!--          <button class="reject" @click="closeModal">아니오</button>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-  </div>
+      <!--      <div v-if="showModal === true" class="modal">-->
+      <!--        <div class="modal-content">-->
+      <!--          모임 참가를 신청하시겠습니까?-->
+      <!--          <div class="modal-buttons">-->
+      <!--          <button class="accept" @click="handleCreateParticipation">예</button>-->
+      <!--          <button class="reject" @click="closeModal">아니오</button>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+    </div>
   </div>
 </template>
 

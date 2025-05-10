@@ -28,9 +28,15 @@
       다음 단계로
     </button>
 
-    <button v-if="isInsufficient" class="charge-btn" @click="goToCharge">
+    <button v-if="isInsufficient" class="charge-btn" @click="openChargeModal">
       충전하러 가기
     </button>
+
+    <!-- 🔽 포인트 충전 모달 -->
+    <TossPaymentModal
+      :visible="showChargeModal"
+      @close="showChargeModal = false"
+    />
   </PointCheckLayout>
 </template>
 
@@ -40,6 +46,7 @@ import { useRoute, useRouter } from 'vue-router';
 import api from '@/api/axios';
 import { useAuthStore } from '@/stores/auth.js';
 import PointCheckLayout from '@/features/meeting/components/PointCheckLayout.vue';
+import TossPaymentModal from '@/features/point/components/TossPaymentModal.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -47,6 +54,8 @@ const authStore = useAuthStore();
 
 const currentPoints = ref(0);
 const participationFee = ref(0);
+const showChargeModal = ref(false);
+
 const balance = computed(() => currentPoints.value - participationFee.value);
 const isInsufficient = computed(() => balance.value < 0);
 
@@ -92,8 +101,9 @@ const goToNextStep = () => {
   });
 };
 
-const goToCharge = () => {
-  router.push({ name: 'ChargePoint' }); // 실제 충전 페이지 경로/이름으로 수정
+const openChargeModal = () => {
+  console.log('🟢 충전하러 가기 버튼 클릭됨');
+  showChargeModal.value = true;
 };
 </script>
 

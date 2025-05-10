@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue'
+import { BanknotesIcon } from '@heroicons/vue/16/solid/index.js';
 const props = defineProps({
   meeting: {
     type: Object,
@@ -55,13 +56,98 @@ function formatDate(iso) {
 
       <p class="likes">
         <img src="@/assets/icons/meeting_and_place/heart.svg" alt="찜인원" class="search-icon" />
-        {{ meeting.interestedCount || 0 }}명 찜
+        {{ meeting.interestedCount }}명 찜
       </p>
 
-      <p class="price" v-if="meeting.price !== undefined">
-        <span class="material-symbols-outlined card">attach_money</span>
+      <p class="price">
+        <BanknotesIcon class="size-6 text-blue-500" />
         <strong>{{ meeting.participationFee.toLocaleString() }}원</strong>
       </p>
+
     </section>
   </article>
 </template>
+
+<style scoped>
+.filter-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.filter-toggle-btn {
+  max-height: 35px;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+.filter-toggle-btn:hover {
+  background-color: #dde4f3;
+}
+.meeting-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.meeting-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+.meeting-info {
+  padding: 16px;
+}
+.meeting-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.meeting-meta .date {
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  gap: 5px;
+}
+.bookmark {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 6px 0 10px;
+  color: #222;
+}
+.date, .location, .likes, .price {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.search-icon {
+  width: 16px;
+  height: 16px;
+}
+.price strong {
+  color: #3366ff;
+  font-weight: 600;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+  color: #5790FF;
+}
+
+</style>

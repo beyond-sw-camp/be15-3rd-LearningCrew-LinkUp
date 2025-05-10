@@ -46,3 +46,49 @@ const sports = [
   </div>
 </template>
 
+<style scoped>
+.filter-scroll-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 80%;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+
+
+.icon-btn {
+  border: none;
+  background: none;
+  padding: 6px;
+  cursor: pointer;
+  justify-items: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.icon-btn img {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%);
+  transition: filter 0.2s;
+}
+
+.icon-btn.active img {
+  filter: none;
+}
+
+
+.icon-btn span:last-child {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
+.icon-btn.active span:last-child {
+  color: #2977f5;
+  font-weight: bold;
+}
+
+</style>

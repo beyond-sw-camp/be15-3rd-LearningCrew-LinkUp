@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import '@/assets/css/admin-styles.css'
+
 
 const props = defineProps({
   currentPage: Number,
@@ -98,3 +98,38 @@ const visiblePages = computed(() => {
     </ul>
   </nav>
 </template>
+
+<style scoped>
+.pagination {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.pagination-list {
+  display: flex;
+  justify-content: center;
+}
+
+.page-btn,
+.page-nav {
+  border: none;
+  background-color: #fff;
+  color: #333;
+  padding: 8px 14px;
+  margin: 0 3px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.page-btn:hover,
+.page-nav:hover {
+  background-color: #dcd5f2;
+}
+
+.page-btn.active {
+  background-color: #b7a6e4;
+  color: #fff;
+  font-weight: 600;
+}
+</style>

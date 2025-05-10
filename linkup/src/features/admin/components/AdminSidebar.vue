@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
-import '@/assets/css/admin-styles.css'
+
 
 const props = defineProps({
   menuItems: {
@@ -40,3 +40,61 @@ const activePath = computed(() =>
     </footer>
   </aside>
 </template>
+
+<style scoped>
+.sidebar {
+  display: flex;
+}
+
+.admin-sidebar {
+  width: 220px;
+  background-color: #f9f8fb;
+  padding: 20px 16px;
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 68px);
+}
+
+.sidebar-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-sidebar li {
+  margin-bottom: 16px;
+}
+
+.admin-sidebar a {
+  display: block;
+  font-weight: 500;
+  color: #555;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.admin-sidebar a.active {
+  background-color: #e8e4f7;
+}
+
+.sidebar-footer {
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.return-link {
+  color: #555;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.return-link:hover {
+  color: #333;
+}
+</style>

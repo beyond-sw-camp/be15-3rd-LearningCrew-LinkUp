@@ -15,7 +15,6 @@
   margin: 30px auto;
   background: #fff;
   border-radius: 12px;
-  overflow: hidden;
   padding: 32px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }

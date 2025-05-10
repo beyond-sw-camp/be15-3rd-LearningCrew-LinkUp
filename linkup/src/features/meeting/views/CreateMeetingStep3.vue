@@ -83,7 +83,7 @@ const createMeeting = async () => {
   try {
     await api.post('/common-service/meetings', payload);
     alert('모임 개설이 완료되었습니다.');
-    window.location.href = 'http://localhost:5173/';
+    window.location.href = 'http://localhost:5173/meetings';
   } catch (e) {
     alert('모임 개설에 실패했습니다.');
     console.error('📛 POST 실패 payload:', payload);

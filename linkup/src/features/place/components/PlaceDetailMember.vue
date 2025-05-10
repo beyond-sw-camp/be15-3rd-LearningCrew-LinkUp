@@ -74,7 +74,7 @@
                     />
                   </div>
                 </div>
-                <div class="text-xs text-gray-500 mt-1">{{ review.reviewDate || '작성일 미상' }}</div>
+                <div class="text-xs text-gray-500 mt-1">{{ review.reviewDate || '작성일 미생' }}</div>
                 <p class="mt-2 text-sm text-gray-700">{{ review.reviewContent }}</p>
               </div>
               <div v-if="review.reviewImageUrl" class="w-1/3 flex items-center justify-center">
@@ -84,8 +84,9 @@
           </section>
         </div>
 
-        <!-- 버튼 -->
+        <!-- 비용 버튼 -->
         <RouterLink
+          v-if="authStore.userRole !== 'BUSINESS'"
           :to="`/meetings/create/reserved/step1?placeId=${place.placeId}`"
           class="block mt-6 w-full"
         >
@@ -104,6 +105,7 @@
 import { ref, watch } from 'vue';
 import { getPlaceDetail } from '@/api/place';
 import { RouterLink } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 import bgImage from '@/assets/images/linkup_bg.jpg';
 
 const emit = defineEmits(['close']);
@@ -114,27 +116,19 @@ const props = defineProps({
   }
 });
 
+const authStore = useAuthStore();
 const detail = ref(null);
 const imageSrc = ref(props.place.image || bgImage);
 
-// ✅ 축약 요일(MON, TUE 등)에 대응하는 한글 맵
 const dayKorMap = {
-  MON: '월요일',
-  MONDAY: '월요일',
-  TUE: '화요일',
-  TUESDAY: '화요일',
-  WED: '수요일',
-  WEDNESDAY: '수요일',
-  THU: '목요일',
-  THURSDAY: '목요일',
-  FRI: '금요일',
-  FRIDAY: '금요일',
-  SAT: '토요일',
-  SATURDAY: '토요일',
-  SUN: '일요일',
-  SUNDAY: '일요일',
+  MON: '월요일', MONDAY: '월요일',
+  TUE: '화요일', TUESDAY: '화요일',
+  WED: '수요일', WEDNESDAY: '수요일',
+  THU: '목요일', THURSDAY: '목요일',
+  FRI: '금요일', FRIDAY: '금요일',
+  SAT: '토요일', SATURDAY: '토요일',
+  SUN: '일요일', SUNDAY: '일요일',
 };
-
 
 const fullStar = 'https://upload.wikimedia.org/wikipedia/commons/1/18/Five-pointed_star.svg';
 const emptyStar = 'https://upload.wikimedia.org/wikipedia/commons/4/49/Star_empty.svg';
