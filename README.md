@@ -515,7 +515,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 > 프론트엔드 테스트 케이스 상세
 
 #### 모임
-- STEP46 모임 목록 조회
+- STEP46 참가자 평가
 <img src="assets/test_cases/meeting/step46-participant-review.PNG" alt="STEP46 참가자 평가"/>
 - STEP66 모임 목록 조회
 <img src="assets/test_cases/meeting/step66-meetings.png" alt="STEP66 모임 목록 조회"/>
