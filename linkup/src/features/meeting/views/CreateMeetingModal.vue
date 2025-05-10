@@ -46,5 +46,141 @@
   height: 28px;
   margin-top: 2px;
 }
+
+/* ---------------- 모임 개설 선택 모달 ---------------- */
+.create-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-modal .modal-box {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.create-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.create-modal .modal-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.create-modal .close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #94a3b8;
+}
+
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background-color: #f5f8ff;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.option-card:hover {
+  background-color: #e8f0ff;
+  transform: translateY(-2px);
+}
+
+.option-icon {
+  font-size: 28px;
+  color: #4f46e5;
+  margin-top: 2px;
+}
+
+.option-text .option-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.option-text .option-sub {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+
+/* ---------------- 모임 목록 모달 ---------------- */
+.assignment-modal {
+  position: fixed;
+  top: 160px; /* 정확히 두 번째 버튼과 정렬 */
+  right: 90px; /* 버튼 오른쪽 여백 기준 */
+  width: 27%; /* 모달 너비 확장 */
+  min-width: 500px; /* 최소 너비 설정 */
+  max-width: 600px; /* 최대 너비 설정 */
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+}
+.assignment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  font-size: 22px; /* 헤더 폰트 크기 증가 */
+  font-weight: 700;
+  color: #111827;
+}
+.assignment-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+.assignment-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+.assignment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.material-symbols-outlined.card {
+  font-size: 16px !important;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1;
+  color: #E64980;
+}
 </style>
 

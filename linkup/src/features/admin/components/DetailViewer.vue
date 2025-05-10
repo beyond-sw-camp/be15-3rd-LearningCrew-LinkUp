@@ -1,6 +1,6 @@
 <script setup>
 import AdminButton from '@/features/admin/components/AdminButton.vue'
-import '@/assets/css/admin-styles.css'
+// import '@/assets/css/admin-styles.css'
 
 const props = defineProps({
   modelValue: {

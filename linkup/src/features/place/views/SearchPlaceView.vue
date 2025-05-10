@@ -5,7 +5,7 @@ import PlaceCard from '@/features/place/components/PlaceCard.vue'
 import FloatingNavPlace from '@/features/place/components/FloatingNavPlace.vue'
 import MapDisplay from '@/components/common/MapDisplay.vue'
 import FilterRegionSelector from '@/features/place/components/FilterRegionSelector.vue'
-import '@/assets/css/search-common.css'
+// import '@/assets/css/search-common.css'
 
 // 필터 조건
 const filters = reactive({

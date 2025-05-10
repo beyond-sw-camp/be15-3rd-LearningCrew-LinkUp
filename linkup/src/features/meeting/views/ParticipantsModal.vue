@@ -151,8 +151,33 @@ function closeModal() {
   margin-top: 2px;
 }
 
-.participant-btn.disabled {
-  cursor: default;
+.participant-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.participant-btn.accept {
+  background-color: #5790FF;
+  color: #fff;
+}
+
+.participant-btn.accept:hover {
+  background-color: #3b69d1;
+}
+
+.participant-btn.reject {
+  background-color: #E64980;
+  color: #fff;
+}
+
+.participant-btn.reject:hover {
+  background-color: #cc3a6a;
 }
 
 .btn {
@@ -170,5 +195,93 @@ function closeModal() {
   width: 0;
   height: 0;
   overflow: hidden;
+}
+
+/* 참가자 카드 스타일 */
+.participant-card {
+  background: #f4f6fb;
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  margin-bottom: 10px;
+}
+
+.participant-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #e0e0e0;
+}
+
+.participant-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.participant-nickname {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.participant-subinfo {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.participant-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* 버튼 영역 */
+.btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn.accept {
+  background-color: #5790FF;
+  color: #fff;
+}
+
+.btn.accept:hover {
+  background-color: #3a6edc;
+}
+
+.btn.reject {
+  background-color: #FEB5A1;
+  color: #fff;
+}
+
+.btn.reject:hover {
+  background-color: #E64980;
+}
+
+.btn.cancel {
+  background-color: #939DC1;
+  color: #fff;
+  width: 100%;
+}
+
+.btn.cancel:hover {
+  background-color: #939DC1;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 10px 0; /* 여유 있는 구분선 */
 }
 </style>
