@@ -7,6 +7,8 @@ import api from '@/api/axios.js';
 const userStore = useAuthStore();
 const meetings = ref([]);
 
+const isLoading = ref(true);
+
 meetings.value = [{
   meetingTitle: "제목",
   placeName: "종합운동장",
@@ -21,6 +23,8 @@ onMounted(async() => {
     meetings.value = response.data.data.meetings;
   } catch (e) {
     console.error('개설 모임 조회 실패', e);
+  } finally {
+    isLoading.value = false;
   }
 })
 
@@ -38,9 +42,15 @@ const statusName = (id) => {
       return '모임 진행 완료';
   }
 }
+
+const emit = defineEmits(['close', 'select']);
 </script>
 
 <template>
+  <template v-if="isLoading">
+    로딩 중
+  </template>
+  <template v-else>
   <div class="assignment-modal">
     <div class="modal-box">
       <!-- 모달 헤더 -->
@@ -72,6 +82,7 @@ const statusName = (id) => {
 
     </div>
   </div>
+  </template>
 </template>
 
 <style scoped>
