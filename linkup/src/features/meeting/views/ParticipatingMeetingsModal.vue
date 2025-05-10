@@ -29,6 +29,8 @@ onMounted(async() => {
   }
 })
 
+const emits = defineEmits(['close', 'select']);
+
 const statusName = (id) => {
   switch(id) {
     case 1:
@@ -43,8 +45,6 @@ const statusName = (id) => {
       return '모임 진행 완료';
   }
 }
-
-const emits = defineEmits(['close', 'select']);
 </script>
 
 <template>

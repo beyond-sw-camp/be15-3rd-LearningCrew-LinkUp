@@ -1,11 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import { useRoute } from 'vue-router';
 import ParticipantReviewLayout from '@/features/meeting/components/ParticipantReviewLayout.vue';
+import { useAuthStore } from '@/stores/auth.js';
+import api from '@/api/axios.js';
 
 const route = useRoute();
-const reviewerId = 1; // 예시 reviewerId, 실제 로그인 사용자 ID로 대체
+const userStore = useAuthStore();
+const reviewerId = userStore.userId; // 예시 reviewerId, 실제 로그인 사용자 ID로 대체
 const meetingId = route.params.meetingId;
 
 const participants = ref([]);
@@ -15,33 +17,30 @@ const fetchParticipants = async () => {
   isLoading.value = true;
 
   try {
-    // const response = await axios.get(`/my/meetings/${meetingId}/participation`, {
-    //   params: {reviewerId},
-    //   headers: {
-    //     'Accept': 'application/json' // 응답으로 JSON을 요청
-    //   }
+    // const response = await api.get(`/common-service/my/meetings/${meetingId}/participation`, {
+    //   params: {requesterId: reviewerId, memberId: reviewerId}
     // });
-    // participants.value = response.data;
+    // participants.value = response.data.data.participants;
     participants.value = [
       {
         reviewerId: reviewerId,
         revieweeId: 1,
         revieweeNickname: '방구석메시',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
         score: null
       },
       {
         reviewerId: reviewerId,
         revieweeId: 2,
         revieweeNickname: '헬린이',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
         score: null
       },
       {
         reviewerId: reviewerId,
         revieweeId: 3,
         revieweeNickname: '메시',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
+        profileImageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
         score: null
       },
     ];
@@ -57,7 +56,7 @@ onMounted(() => {
 
 const handleRate = ({ revieweeId, value }) => {
   const p = participants.value.find((p) => p.revieweeId === revieweeId);
-    p.score = p.score === value ? null : value;
+  p.score = p.score === value ? null : value;
 };
 
 const submitRatings = async () => {
@@ -80,7 +79,7 @@ const submitRatings = async () => {
   console.log(requestData);
 
   // try {
-  //   const response = await axios.post(`meetings/${meetingId}/review`, requestData);
+  //   const response = await api.post(`/common-service/meetings/${meetingId}/review`, requestData);
   //   console.log('제출 완료', response.data);
   // } catch (e) {
   //   console.log('제출 실패', e);

@@ -59,7 +59,7 @@
       </div>
 
       <div class="participant-modal-button">
-        <button class="btn accept">모임 바로가기</button>
+        <button class="btn accept" @click="goToMeetingDetails">모임 바로가기</button>
         <button class="btn cancel" @click="cancelMeeting">모임 취소</button>
       </div>
     </div>
@@ -70,6 +70,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import api from '@/api/axios.js';
 import { useAuthStore } from '@/stores/auth.js';
 import {startLoading} from "@/composables/useLoadingBar.js";
+import { useRouter } from 'vue-router';
 
 const auth = useAuthStore();
 
@@ -83,6 +84,8 @@ const props = defineProps({
   meeting: Object
 });
 
+const router = useRouter();
+
 const meetingId = computed(() => props.meeting?.meetingId);
 
 const fetchParticipants = async () => {
@@ -90,7 +93,7 @@ const fetchParticipants = async () => {
     const response = await api.get(`common-service/my/meetings/${meetingId.value}/participation`, {
       params: { memberId: auth.userId, requesterId: auth.userId }
     });
-    participants.value = response.data.data.participants;
+    participants.value = response.data.data.participants || [];
     const meetingResponse = await api.get(`common-service/meetings/${meetingId.value}`);
     leaderNickname.value = meetingResponse.data.data.meeting.leaderNickname;
   } catch (error) {
@@ -103,7 +106,7 @@ const fetchApplicants = async () => {
     const response = await api.get(`common-service/meetings/${meetingId.value}/participation_request`, {
       params: { requesterId: auth.userId }
     });
-    applicants.value = response.data.data.participants; // API 응답에 맞게 수정
+    applicants.value = response.data.data.participants || []; // API 응답에 맞게 수정
   } catch (error) {
     console.error('참가 신청자 목록을 불러오는 중 오류 발생:', error);
   }
@@ -166,14 +169,18 @@ const cancelMeeting = async () => {
           }
         }
       );
-      alert('모집 취소에 성공했습니다.');
-      return;
+      // alert('모집 취소에 성공했습니다.');
+      closeModal();
     }
   } catch (e) {
-    console.error('모임 취소 실패', e);
-    alert('모임 취소에 실패했습니다.');
+    console.error('모집 취소 실패', e);
+    alert('모집 취소에 실패했습니다.');
   }
 };
+
+const goToMeetingDetails = () => {
+  router.push(`/meetings/${meetingId.value}`)
+}
 </script>
 
 <style scoped>

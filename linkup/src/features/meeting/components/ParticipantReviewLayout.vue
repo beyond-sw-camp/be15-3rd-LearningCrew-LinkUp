@@ -30,7 +30,7 @@ const filteredParticipants = computed(() =>
           <div class="applicant">
             <div class="applicant-left">
               <div class="applicant-photo">
-                <img :src="participant.image" alt="프로필 사진" />
+                <img :src="participant.profileImageUrl" alt="프로필 사진" />
               </div>
               <p class="nickname">{{ participant.revieweeNickname }}</p>
             </div>

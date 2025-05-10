@@ -220,9 +220,10 @@ function handlePendingModal() {
   showModal.participants = false;
 }
 
-function handleInterestedModal() {
-
+function handleInterestedModal(meeting) {
+  selectedMeeting.value = meeting;
   showModal.interested = false;
+  goToMeetingDetail(meeting.meetingId);
 }
 
 function toggleFilterDropdown() {

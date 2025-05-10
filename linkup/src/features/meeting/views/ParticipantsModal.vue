@@ -31,8 +31,8 @@
       </div>
 
       <div class="participant-modal-button">
-        <button class="btn accept">모임 바로가기</button>
-        <button class="btn cancel">모임 참가 취소</button>
+        <button class="btn accept" @click="goToMeetingDetails">모임 바로가기</button>
+        <button class="btn cancel" @click="cancelParticipation">모임 참가 취소</button>
       </div>
     </div>
 </template>
@@ -41,8 +41,10 @@
 import { computed, ref, watch } from 'vue';
 import api from '@/api/axios.js';
 import { useAuthStore } from '@/stores/auth.js';
+import { useRouter } from 'vue-router';
 
 const auth = useAuthStore();
+const router = useRouter();
 
 const leaderNickname = ref([]);
 // 참가자 목록 조회 api.get(`common-service/my/meetings/${meetingId}/participation`);
@@ -70,11 +72,11 @@ const meetingId = computed(() => props.meeting?.meetingId);
 
 const fetchParticipants = async () => {
   try {
-    const response = await api.get(`common-service/my/meetings/${meetingId.value}/participation`, {
+    const response = await api.get(`/common-service/my/meetings/${meetingId.value}/participation`, {
       params: { memberId: auth.userId, requesterId: auth.userId }
     });
     participants.value = response.data.data.participants;
-    const meetingResponse = await api.get(`common-service/meetings/${meetingId.value}`);
+    const meetingResponse = await api.get(`/common-service/meetings/${meetingId.value}`);
     leaderNickname.value = meetingResponse.data.data.meeting.leaderNickname;
   } catch (error) {
     console.error('참가자 목록을 불러오는 중 오류 발생:', error);
@@ -92,6 +94,29 @@ watch(meetingId, (newMeetingId) => {
 const emit = defineEmits(['close']);
 function closeModal() {
   emit('close');
+}
+
+const goToMeetingDetails = () => {
+  router.push(`/meetings/${meetingId.value}`)
+}
+
+const cancelParticipation = async () => {
+  try {
+    const result = confirm('정말 참가를 취소하시겠습니까?');
+    if (result) {
+      api.delete(`common-service/meetings/${meetingId.value}/participation/${auth.userId}`, {
+          params: {
+            memberId: auth.userId,  // 요청자 ID 등 필요한 파라미터
+            // 다른 필요한 파라미터들 추가
+          }
+        }
+      );
+      closeModal();
+    }
+  } catch (e) {
+    console.error('참가 취소 실패', e);
+    alert('참가 취소에 실패했습니다.');
+  }
 }
 </script>
 

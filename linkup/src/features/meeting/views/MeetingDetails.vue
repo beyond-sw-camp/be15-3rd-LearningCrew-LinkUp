@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import MeetingDetailLayout from '@/features/meeting/components/MeetingDetailLayout.vue';
 import MeetingParticipants from '@/features/meeting/components/MeetingParticipants.vue';
 import api from '@/api/axios.js';
@@ -9,6 +9,7 @@ import DefaultMainLayout from '@/components/layout/DefaultMainLayout.vue';
 import {startLoading} from "@/composables/useLoadingBar.js";
 
 const route = useRoute();
+const router = useRouter();
 const meeting = ref(null);
 const isLoading = ref(true);
 const count = ref(0);
