@@ -18,6 +18,7 @@
     <!-- 제목 -->
     <h1 class="post-title">{{ post?.title }}</h1>
 
+    <div class="author-row">
     <!-- 작성자 정보 -->
     <div class="author-info">
       <img :src="post?.profileImageUrl || defaultImage"
@@ -31,8 +32,36 @@
         <div class="date">작성일: {{ formatDate(post?.createdAt) }}</div>
       </div>
     </div>
+    </div>
 
-    <!-- 게시글 이미지 -->
+    <div class="like-section" @click="toggleLike" style="cursor: pointer;">
+      <span @click.stop="toggleLike(post.postId)">
+  <img
+      v-if="isLiked"
+      src="@/assets/icons/community/heart.svg"
+      alt="하트"
+      class="like-icon"
+  />
+  <img
+      v-else
+      src="@/assets/icons/community/empty_heart.svg"
+      alt="빈하트"
+      class="like-icon"
+  />
+</span>
+<!--           <span v-if="isLiked">-->
+<!--        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>-->
+<!--      </span>-->
+<!--      <span v-else>-->
+<!--        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />-->
+<!--      </span>-->
+      {{ post?.likeCount || 0 }}
+</div>
+
+
+
+
+      <!-- 게시글 이미지 -->
     <div class="post-images" v-if="post?.imageUrls?.length">
       <img
           v-for="(url, index) in post.imageUrls"
@@ -48,8 +77,17 @@
       <p class="content">{{ post?.content }}</p>
       <div class="post-footer">
         <div></div>
-        <div class="like-section">❤️ {{ post?.likeCount || 0 }}</div>
-      </div>
+<!--        <div class="like-section" @click="toggleLike" style="cursor: pointer;">-->
+<!--           <span v-if="isLiked">-->
+<!--        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>-->
+<!--      </span>-->
+<!--          <span v-else>-->
+<!--        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />-->
+<!--      </span>-->
+<!--          {{ post?.likeCount || 0 }}-->
+
+
+        </div>
     </div>
 
 
@@ -60,8 +98,12 @@
     />
 
     <!-- 댓글 리스트 -->
-    <div class="comments" v-if="post?.comments?.length">
-      <h2>댓글</h2>
+      <div class="comments" v-if="post?.comments?.length">
+        <h2 class="comment-header-title">
+          <img src="@/assets/icons/community/comments.svg" alt="댓글" class="like-icon" />
+          {{ post?.comments?.length || 0 }}
+        </h2>
+
       <div class="comment" v-for="comment in post.comments" :key="comment.commentId">
         <div class="comment-header">
           <img :src="comment.profileImageUrl || defaultImage"
@@ -74,13 +116,16 @@
             {{ comment.nickname }}
           </span>
               <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
-              <span class="comment-like">❤️ {{ comment.likeCount || 0 }}</span>
+              <span class="comment-like" @click.stop="toggleCommentLike(comment.commentId)">
+               ❤️ {{ comment.likeCount || 0 }}
+              </span>
             </div>
             <p class="comment-content">{{ comment.commentContent }}</p>
           </div>
         </div>
       </div>
     </div>
+
 
     <!-- 미니 프로필 컴포넌트 삽입 예정 위치 -->
     <UserMiniProfile
@@ -90,6 +135,15 @@
         @close="closeMiniProfile"
     />
   </div>
+
+  <PostCompleteModal
+      v-if="isAuthorMismatch"
+      title="접근 불가"
+      message="작성자만 수정할 수 있습니다."
+      @confirm="isAuthorMismatch = false"
+      @close="isAuthorMismatch = false"
+  />
+
 </template>
 
 <script setup>
@@ -99,13 +153,18 @@ import api from '@/features/community/communityApi';
 import {getUserProfile} from "@/api/user.js";
 import UserMiniProfile from "@/features/community/components/UserMiniProfile.vue";
 import PostCommentForm from "@/features/community/components/PostCommentForm.vue";
+import PostCompleteModal from '@/features/community/components/CommunityModal.vue';
+import { useAuthStore } from '@/stores/auth';
 
-
+const authStore = useAuthStore();
+const isAuthorMismatch = ref(false);
 const route = useRoute();
 const router = useRouter();
 const postId = computed(() => route.params.id);
 const post = ref(null);
+const isLiked = ref(false);
 const newComment = ref('');
+
 
 const showProfile = ref(false);
 const selectedUser = ref(null);
@@ -119,16 +178,118 @@ const fetchPost = async () => {
     const res = await api.fetchPostById(postId.value);
     console.log('[DEBUG] 게시글 데이터:', res.data.data);
     post.value = res.data.data;
+    isLiked.value = res.data.data.isLiked;
   } catch (e) {
     console.error('상세 조회 실패', e);
   }
 };
 
+const toggleLike = async () => {
+  try {
+    if (!post.value?.postId) return;
+    const userId = authStore.userId;
+
+    if (isLiked.value) {
+      await api.unlikePost(post.value.postId, userId);
+      post.value.likeCount--;
+    } else {
+      await api.likePost(post.value.postId, userId);
+      post.value.likeCount++;
+    }
+
+    isLiked.value = !isLiked.value;
+    console.log('[DEBUG] toggleLike 실행됨');
+  } catch (e) {
+    console.error('좋아요 토글 실패', e.response?.data || e.message);
+    alert('좋아요 요청에 실패했습니다.');
+  }
+};
+
+const editPost = async () => {
+  if (!post.value?.postId) {
+    alert('게시글 정보를 찾을 수 없습니다.');
+    return;
+  }
+
+  const userId = authStore.userId;
+
+  // 🔍 서버로부터 정확한 작성자 정보 재조회
+  try {
+    const res = await api.fetchPostById(post.value.postId);
+    const postData = res.data.data;
+
+    // if (postData.userId !== userId) {
+    if (Number(postData.userId) !== Number(userId)) {
+      console.log('userId', postData.userId)
+      console.log('userId', userId)
+      isAuthorMismatch.value = true; // 모달 열기
+      return;
+    }
+
+    // 작성자인 경우에만 이동
+    await router.push({name: 'PostEdit', params: {postId: post.value.postId}});
+
+  } catch (err) {
+    console.error('게시글 확인 실패', err);
+    alert('게시글을 확인할 수 없습니다.');
+  }
+};
+
+const goBack = () => {
+  router.back();
+};
+
+const deletePost = async () => {
+  if (!post.value?.postId) {
+    alert('삭제할 게시글이 없습니다.');
+    return;
+  }
+
+  const confirmed = confirm('정말 삭제하시겠습니까?');
+  if (!confirmed) return;
+
+  const userId = authStore.userId;
+
+  try {
+    await api.deletePost(post.value.postId, userId);
+    alert('게시글이 삭제되었습니다.');
+    router.push({ name: 'CommunityList' }); // ✅ 목록 페이지로 이동
+  } catch (e) {
+    console.error('게시글 삭제 실패:', e.response?.data || e.message);
+    alert('삭제 중 오류가 발생했습니다.');
+  }
+};
+
+const toggleCommentLike = async (commentId) => {
+  try {
+    const userId = authStore.userId;
+    const comment = post.value.comments.find(c => c.commentId === commentId);
+    if (!comment) return;
+
+    if (comment.isLiked) {
+      await api.unlikeComment(commentId, userId);
+      comment.likeCount--;
+    } else {
+      await api.likeComment(commentId, userId);
+      comment.likeCount++;
+    }
+
+
+    comment.isLiked = !comment.isLiked;
+    post.value.comments[comment] = comment; // ✅ 반응형 갱신
+
+  } catch (e) {
+    console.error('댓글 좋아요 실패:', e.response?.data || e.message);
+    alert('댓글 좋아요 처리 중 오류가 발생했습니다.');
+  }
+};
+
+
 const openMiniProfile = async (event, targetId) => {
   try {
     const res = await getUserProfile({ targetId });
-    console.log('[DEBUG] 프로필 응답:', res.data.data);
-    console.log('user.id', res.data.data.member.user.userId)
+    // console.log('[DEBUG] 프로필 응답:', res.data.data);
+    // console.log('user.id', res.data.data.member.user.userId)
     selectedUser.value = res.data.data.member;
 
     const targetEl = event.currentTarget || event.target;
@@ -145,11 +306,6 @@ const openMiniProfile = async (event, targetId) => {
     console.error('프로필 조회 실패', e);
   }
 };
-
-const goBack = () => {
-  router.back() // 브라우저 히스토리 상 한 단계 뒤로 이동
-}
-
 
 
 const closeMiniProfile = () => {
@@ -210,16 +366,25 @@ onMounted(fetchPost);
   gap: 10px;
 }
 .action-buttons button {
-  padding: 6px 12px;
+  padding: 8px 16px;
+  background-color: #5790ff;
+  color: white;
+  font-size: 14px;
   border: none;
   border-radius: 6px;
-  background-color: #f0f0f0;
   cursor: pointer;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease;
+  //padding: 6px 12px;
+  //border: none;
+  //border-radius: 6px;
+  //background-color: #f0f0f0;
+  //cursor: pointer;
+  //box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  //transition: background-color 0.3s ease;
 }
 .action-buttons button:hover {
-  background-color: #d0d0ff;
+  background-color: #3548d3;
+  //background-color: #d0d0ff;
 }
 .post-images {
   display: flex;
@@ -311,6 +476,37 @@ onMounted(fetchPost);
   margin-bottom: 4px;
   font-size: 1rem;
 }
+
+.author-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.like-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.comment-count {
+  margin-left: 12px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.comment-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 20px 0 12px;
+  color: #333;
+}
+
 
 
 </style>
