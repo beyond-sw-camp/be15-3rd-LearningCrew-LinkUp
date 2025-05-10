@@ -197,3 +197,163 @@ const columns = [
     </template>
   </AdminListTemplate>
 </template>
+
+
+<style scoped>
+/* ========== 필터 영역 ========== */
+.filter-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.select-box,
+input[type="text"],
+select {
+  height: 32px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
+.id-input {
+  width: 50px;
+}
+
+
+/* ========== 모달 오버레이 ========== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+/* ========== 모달 컨텐츠 ========== */
+.modal-content,
+.modal-report,
+.penalty-detail-section {
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  width: 850px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+
+/* ========== 모달 섹션 ========== */
+.modal-section,
+.modal-report-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-section:last-child,
+.modal-report-section:last-child {
+  border-bottom: none;
+}
+
+
+/* ========== 섹션 타이틀 ========== */
+.section-title,
+.report-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #7d6fb3;
+  margin: 20px 0 12px;
+  padding-left: 10px;
+  border-left: 4px solid #7d6fb3;
+}
+
+.sub-text {
+  font-size: 14px;
+  color: #777;
+  margin-top: 10px;
+}
+
+
+/* ========== 정보 그리드 ========== */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 32px;
+  margin-bottom: 10px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item .label {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.info-item .value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #222;
+}
+
+
+/* ========== 사유 박스 ========== */
+.reason-box {
+  background: #f9f9fb;
+  border: 1px solid #e0e0e0;
+  padding: 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+
+/* ========== 모달 버튼 영역 ========== */
+.modal-footer,
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+
+/* ========== 스크린 리더 전용 텍스트 ========== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+</style>

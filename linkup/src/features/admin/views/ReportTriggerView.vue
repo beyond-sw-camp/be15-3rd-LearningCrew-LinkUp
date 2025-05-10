@@ -96,3 +96,69 @@ const handleSubmit = async (payload) => {
   background-color: #6c5da8;
 }
 </style>
+
+
+<style scoped>
+.filter-wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+.filter-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.select-box {
+  margin-left: 12px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.input-box {
+  min-width: 160px;
+}
+
+select,
+input[type="text"] {
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
+</style>

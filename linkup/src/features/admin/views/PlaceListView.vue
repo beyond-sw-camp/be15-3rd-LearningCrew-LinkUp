@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import AdminListTemplate from '@/features/admin/components/AdminListTemplate.vue'
-import { fetchPlaceList } from '@/api/admin.js'  // 실제 API 연동
+import { fetchPlaceList } from '@/api/admin.js'
+import PlaceDetailMember from '@/features/place/components/PlaceDetailMember.vue';  // 실제 API 연동
 
 // props
 const props = defineProps({ pageTitle: String })
+const selectedPlace = ref(null)
 
 // 필터 초기값 설정
 const filters = {
@@ -61,10 +63,10 @@ const columns = [
   {
     key: 'view',
     label: '상세 보기',
-    format: () => ({
+    format: (_, row) => ({
       type: 'button',
       label: '보기',
-      onClick: () => alert('상세 보기 클릭됨')
+      onClick: () => (selectedPlace.value = { ...row })
     })
   }
 ]
@@ -111,4 +113,95 @@ const columns = [
     </label>
   </template>
   </AdminListTemplate>
+
+  <Teleport to="body">
+    <PlaceDetailMember
+      v-if="selectedPlace"
+      :place="selectedPlace"
+      @close="() => (selectedPlace.value = null)"
+    />
+  </Teleport>
+
 </template>
+
+
+<style scoped>
+.filter-wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+.filter-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.select-box {
+  margin-left: 12px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.input-box {
+  min-width: 160px;
+}
+
+select,
+input[type="text"] {
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
+.id-input {
+  width: 50px;
+}
+
+/* 스크린리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
