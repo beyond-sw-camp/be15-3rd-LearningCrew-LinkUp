@@ -4,7 +4,7 @@
     <form @submit.prevent="submitPost">
       <div class="form-group title-notice-group">
         <label for="title">제목</label>
-        <label class="checkbox-label" v-if="!isEditMode">
+        <label class="checkbox-label">
           <input type="checkbox" v-model="post.isNotice" />
           공지사항
         </label>
@@ -42,20 +42,21 @@
   <!--  작성 완료 모달 -->
   <PostCompleteModal
       v-if="isPopupVisible"
-      title="게시글 작성 완료"
+      :title="modalTitle"
       :message="modalMessage"
+      :cancelText="null"
       @confirm="goToPostDetail"
-      @close="isPopupVisible = false"
   />
 
-  <!-- 작성자 아님 접근 제한 모달 -->
-  <PostCompleteModal
-      v-if="isAuthorMismatch"
-      title="접근 불가"
-      :message="accessDeniedMessage"
-      @confirm="goToDetailInstead"
-      @close="goToDetailInstead"
-  />
+<!--  &lt;!&ndash; 작성자 아님 접근 제한 모달 &ndash;&gt;-->
+<!--  <PostCompleteModal-->
+<!--      v-if="isAuthorMismatch"-->
+<!--      title="접근 불가"-->
+<!--      message="작성자만 수정할 수 있습니다."-->
+<!--      :cancelText="null"-->
+<!--      @confirm="goToDetailInstead"-->
+<!--  />-->
+
 </template>
 
 <script setup>
@@ -83,6 +84,7 @@ const selectedFiles = ref([]);
 const existingImageUrls = ref([]);
 const isPopupVisible = ref(false);
 const modalMessage = ref('');
+const modalTitle = ref('');
 const createdPostId = ref(null);
 
 // 수정 모드일 경우 초기 데이터 세팅
@@ -98,8 +100,9 @@ onMounted(async () => {
       // 작성자 본인인지 확인
       const userId = Number(authStore.userId);
       if (data.userId !== userId) {
-        alert('작성자만 수정할 수 있습니다.');
-        router.push(`/community/${postId.value}`);
+        modalTitle.value = '접근 불가';
+        modalMessage.value = '작성자만 수정할 수 있습니다.';
+        isAuthorMismatch.value = true;
         return;
       }
 
@@ -120,7 +123,7 @@ onMounted(async () => {
       alert('게시글 정보를 불러오지 못했습니다.');
       console.error(err);
     }
-  }else if (route.name === 'CommunityCreateView') {
+  } else if (route.name === 'CommunityCreateView') {
     const postData = route?.state?.post;
     if (postData) {
       post.value.title = postData.title;
@@ -128,14 +131,6 @@ onMounted(async () => {
       post.value.isNotice = postData.isNotice === 'Y';
     }
   }
-  // } else {
-  //   const postData = route?.state?.post;
-  //   if (postData) {
-  //     post.value.title = postData.title;
-  //     post.value.content = postData.content;
-  //     post.value.isNotice = postData.isNotice === 'Y';
-  //   }
-  // }
 });
 
 // 이미지 업로드/삭제 함수 동일
@@ -150,11 +145,6 @@ const handleImageUpload = (event) => {
     reader.readAsDataURL(file);
   });
 };
-
-// const removeImage = (index) => {
-//   imagePreviews.value.splice(index, 1);
-//   selectedFiles.value.splice(index, 1);
-// };
 
 const removeImage = (index) => {
   const previewUrl = imagePreviews.value[index];
@@ -173,8 +163,7 @@ const goToPostDetail = () => {
   isPopupVisible.value = false;
   router.replace({ path: `/community/${createdPostId.value}`, state: null });
 };
-  // router.push(`/community/${createdPostId.value}`);
-// };
+
 
 const goToDetailInstead = () => {
   router.push(`/community/${postId.value}`);
@@ -211,6 +200,8 @@ const createPost = async () => {
 
     const id = response.data?.data?.postId || response.data?.data?.id;
     createdPostId.value = id;
+
+    modalTitle.value = post.value.isNotice ? '공지사항 작성 완료' : '게시글 작성 완료';
     modalMessage.value = post.value.isNotice ? '공지사항이 등록되었습니다.' : '게시글이 성공적으로 작성되었습니다.';
     isPopupVisible.value = true;
   } catch (err) {
@@ -245,6 +236,7 @@ const updatePost = async () => {
       },
     });
 
+    modalTitle.value = '게시글 수정 완료';
     createdPostId.value = postId.value;
     modalMessage.value = post.value.isNotice ? '공지사항이 수정되었습니다.' : '게시글이 성공적으로 수정되었습니다.';
     isPopupVisible.value = true;
@@ -254,26 +246,7 @@ const updatePost = async () => {
   }
 };
 
-// const updatePost = async () => {
-//   try {
-//     const userId = authStore.userId;
-//     const body = {
-//       userId,
-//       title: post.value.title,
-//       content: post.value.content,
-//       isNotice: post.value.isNotice ? 'Y' : 'N',
-//     };
-//
-//     const response = await api.put(`/common-service/posts/${postId.value}`, body);
-//
-//     createdPostId.value = postId.value;
-//     modalMessage.value = post.value.isNotice ? '공지사항이 수정되었습니다.' : '게시글이 성공적으로 수정되었습니다.';
-//     isPopupVisible.value = true;
-//   } catch (err) {
-//     console.error(err);
-//     alert('게시글 수정 실패');
-//   }
-// };
+
 </script>
 
 

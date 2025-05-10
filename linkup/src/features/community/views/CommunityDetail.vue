@@ -10,7 +10,7 @@
       <!-- 수정/삭제/신고 버튼 -->
       <div class="action-buttons">
         <button @click="editPost">수정</button>
-        <button @click="deletePost">삭제</button>
+        <button @click="confirmDeletePost">삭제</button>
         <button @click="reportPost">신고</button>
       </div>
     </div>
@@ -32,32 +32,28 @@
         <div class="date">작성일: {{ formatDate(post?.createdAt) }}</div>
       </div>
     </div>
+
+      <div class="like-section" >
+
+    <img
+        v-if="isLiked"
+        src="@/assets/icons/community/heart.svg"
+        alt="하트"
+        class="like-icon"
+        @click.stop="toggleLike"
+    />
+    <img
+        v-else
+        src="@/assets/icons/community/empty_heart.svg"
+        alt="빈하트"
+        class="like-icon"
+        @click.stop="toggleLike"
+    />
+
+        {{ post?.likeCount || 0 }}
+      </div>
+
     </div>
-
-    <div class="like-section" @click="toggleLike" style="cursor: pointer;">
-      <span @click.stop="toggleLike(post.postId)">
-  <img
-      v-if="isLiked"
-      src="@/assets/icons/community/heart.svg"
-      alt="하트"
-      class="like-icon"
-  />
-  <img
-      v-else
-      src="@/assets/icons/community/empty_heart.svg"
-      alt="빈하트"
-      class="like-icon"
-  />
-</span>
-<!--           <span v-if="isLiked">-->
-<!--        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>-->
-<!--      </span>-->
-<!--      <span v-else>-->
-<!--        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />-->
-<!--      </span>-->
-      {{ post?.likeCount || 0 }}
-</div>
-
 
 
 
@@ -77,16 +73,6 @@
       <p class="content">{{ post?.content }}</p>
       <div class="post-footer">
         <div></div>
-<!--        <div class="like-section" @click="toggleLike" style="cursor: pointer;">-->
-<!--           <span v-if="isLiked">-->
-<!--        <img src="@/assets/icons/community/heart.svg" alt="하트"  class="like-icon"/>-->
-<!--      </span>-->
-<!--          <span v-else>-->
-<!--        <img src="@/assets/icons/community/empty_heart.svg" alt="빈하트" class="like-icon" />-->
-<!--      </span>-->
-<!--          {{ post?.likeCount || 0 }}-->
-
-
         </div>
     </div>
 
@@ -99,32 +85,71 @@
 
     <!-- 댓글 리스트 -->
       <div class="comments" v-if="post?.comments?.length">
+
         <h2 class="comment-header-title">
-          <img src="@/assets/icons/community/comments.svg" alt="댓글" class="like-icon" />
-          {{ post?.comments?.length || 0 }}
+           <span class="comment-info-group">
+            <img src="@/assets/icons/community/comments.svg" alt="댓글" class="like-icon" />
+            <span class="comment-count">{{ post?.comments?.length || 0 }}</span>
+            </span>
+
+          <span class="comment-info-group">
+            <img
+                :src="totalCommentLikes > 0 ? HeartIcon : EmptyHeartIcon"
+                alt="총 댓글 좋아요"
+                class="like-icon"
+            />
+            <span class="comment-like-count">{{ totalCommentLikes }}</span>
+            </span>
         </h2>
 
-      <div class="comment" v-for="comment in post.comments" :key="comment.commentId">
-        <div class="comment-header">
-          <img :src="comment.profileImageUrl || defaultImage"
-               class="comment-img"
-               alt="comment_img"
-               @click="openMiniProfile($event, comment.userId)" />
-          <div class="comment-meta">
-            <div class="comment-user">
-          <span class="comment-nickname" @click="openMiniProfile($event, comment.userId)">
-            {{ comment.nickname }}
-          </span>
-              <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
-              <span class="comment-like" @click.stop="toggleCommentLike(comment.commentId)">
-               ❤️ {{ comment.likeCount || 0 }}
-              </span>
+        <div class="comment" v-for="comment in post.comments" :key="comment.commentId">
+          <div class="comment-header">
+            <!-- 작성자 이미지 -->
+            <img :src="comment.profileImageUrl || defaultImage"
+                 class="comment-img"
+                 alt="comment_img"
+                 @click="openMiniProfile($event, comment.userId)" />
+
+            <!-- 작성자 정보 (이름과 날짜) -->
+            <div class="comment-meta">
+              <div class="comment-user">
+        <span class="comment-nickname" @click="openMiniProfile($event, comment.userId)">
+          {{ comment.nickname }}
+        </span>
+                <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
+              </div>
             </div>
-            <p class="comment-content">{{ comment.commentContent }}</p>
+
+            <!-- 좋아요, 좋아요 수, 삭제, 신고 버튼들을 오른쪽에 정렬 -->
+            <div class="comment-actions">
+      <span class="comment-like" @click="toggleCommentLike(comment.commentId)">
+        <img :src="comment.liked ? HeartIcon : EmptyHeartIcon" alt="좋아요" class="like-icon" />
+        {{ comment.likeCount ?? 0 }}
+      </span>
+
+              <button
+                  v-if="Number(comment.userId) === Number(authStore.userId)"
+                  class="delete-comment-btn"
+                  @click.stop="requestDeleteComment(comment.commentId)"
+              >
+                <img src="@/assets/icons/community/delete.svg" alt="삭제" class="delete-icon" />
+              </button>
+
+              <button class="report-comment-btn" @click="reportComment(comment.commentId)">
+                <img src="@/assets/icons/community/report.svg" alt="신고" class="report-icon" />
+              </button>
+
+
+            </div>
           </div>
+
+          <!-- 댓글 내용 -->
+          <p class="comment-content">{{ comment.commentContent }}</p>
         </div>
-      </div>
+
+
     </div>
+
 
 
     <!-- 미니 프로필 컴포넌트 삽입 예정 위치 -->
@@ -136,14 +161,75 @@
     />
   </div>
 
+
   <PostCompleteModal
-      v-if="isAuthorMismatch"
-      title="접근 불가"
-      message="작성자만 수정할 수 있습니다."
-      @confirm="isAuthorMismatch = false"
-      @close="isAuthorMismatch = false"
+      v-if="showDeleteModal"
+      title="게시글 삭제"
+      message="정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+      @confirm="deletePost"
+      @close="showDeleteModal = false"
   />
 
+  <PostCompleteModal
+      v-if="showSuccessModal"
+      title="삭제 완료"
+      :message="successMessage"
+      :cancelText="null"
+      @confirm="handleSuccessConfirm"
+  />
+
+  <PostCompleteModal
+      v-if="showCommentDeleteModal"
+      title="댓글 삭제"
+      message="댓글을 삭제하시겠습니까?"
+      @confirm="deleteComment"
+      @close="showCommentDeleteModal = false"
+  />
+
+  <!-- 댓글 삭제 완료 안내 모달 -->
+  <PostCompleteModal
+      v-if="showCommentSuccessModal"
+      title="삭제 완료"
+      :message="commentSuccessMessage"
+      :cancelText="null"
+      @confirm="handleCommentDeleteConfirm"
+  />
+
+  <!-- 수정 확인 모달 -->
+  <PostCompleteModal
+      v-if="showEditConfirmModal"
+      title="게시글 수정"
+      message="게시글을 수정하시겠습니까?"
+      @confirm="goToEditPage"
+      @close="showEditConfirmModal = false"
+  />
+
+  <!-- 권한 없음 모달 -->
+  <PostCompleteModal
+      v-if="isNoPermission"
+      title="권한 없음"
+      message="게시글을 수정할 권한이 없습니다."
+      :cancelText="null"
+      @confirm="closeNoPermissionModal"
+  />
+
+  <CommunityReportModal
+      v-if="showReportModal"
+      :modelValue="showReportModal"
+      type="post"
+      :targetInfo="{ content: post?.title, nickname: post?.nickname }"
+      @update:modelValue="showReportModal = $event"
+      @submit="handleReportSubmit"
+  />
+
+  <CommunityReportModal
+      v-if="showCommentReportModal"
+      :modelValue="showCommentReportModal"
+      type="comment"
+      :targetInfo="{ content: targetComment?.commentContent, nickname: targetComment?.nickname }"
+      @update:modelValue="showCommentReportModal = $event"
+      @submit="handleCommentReportSubmit"
+  />
 </template>
 
 <script setup>
@@ -155,9 +241,56 @@ import UserMiniProfile from "@/features/community/components/UserMiniProfile.vue
 import PostCommentForm from "@/features/community/components/PostCommentForm.vue";
 import PostCompleteModal from '@/features/community/components/CommunityModal.vue';
 import { useAuthStore } from '@/stores/auth';
+import HeartIcon from '@/assets/icons/community/heart.svg';
+import EmptyHeartIcon from '@/assets/icons/community/empty_heart.svg';
+import CommunityReportModal from '@/features/community/components/CommunityReportModal.vue';
+
+const showReportModal = ref(false);
+const showCommentReportModal = ref(false);
+
+const targetComment = ref(null)
+
+  const reportPost = () => {
+  showReportModal.value = true;
+};
+
+  const handleReportSubmit = (data) => {
+  console.log('[DEBUG] 신고 사유:', data);
+  alert('신고가 접수되었습니다.');
+};
+
+
+
+const reportComment = (commentId) => {
+  const comment = post.value?.comments?.find(c => c.commentId === commentId);
+  if (!comment) return;
+
+  console.log('[DEBUG] 댓글 신고 클릭됨:', commentId);
+  targetComment.value = comment;
+  showCommentReportModal.value = true;
+};
+
+const handleCommentReportSubmit = (data) => {
+  console.log('[DEBUG] 댓글 신고 사유:', data);
+  alert('댓글 신고가 접수되었습니다.');
+  showCommentReportModal.value = false;
+};
+
 
 const authStore = useAuthStore();
 const isAuthorMismatch = ref(false);
+const showDeleteModal = ref(false);
+const showCancelModal = ref(false);
+const showSuccessModal = ref(false);
+const successMessage = ref('');
+const showCommentDeleteModal = ref(false);
+const targetCommentId = ref(null);
+const showCommentSuccessModal = ref(false);
+const commentSuccessMessage = ref('');
+const showEditConfirmModal = ref(false);
+const isNoPermission = ref(false);
+
+
 const route = useRoute();
 const router = useRouter();
 const postId = computed(() => route.params.id);
@@ -177,32 +310,76 @@ const fetchPost = async () => {
   try {
     const res = await api.fetchPostById(postId.value);
     console.log('[DEBUG] 게시글 데이터:', res.data.data);
+
     post.value = res.data.data;
     isLiked.value = res.data.data.isLiked;
+    post.value.isLiked = isLiked.value;
+
   } catch (e) {
     console.error('상세 조회 실패', e);
   }
 };
+
+const isLiking = ref(false);
 
 const toggleLike = async () => {
   try {
     if (!post.value?.postId) return;
     const userId = authStore.userId;
 
+    let res;
+
     if (isLiked.value) {
-      await api.unlikePost(post.value.postId, userId);
-      post.value.likeCount--;
+      res = await api.unlikePost(post.value.postId, userId);
+      post.value.likeCount = Math.max(0, post.value.likeCount - 1); // 음수 방지
     } else {
-      await api.likePost(post.value.postId, userId);
-      post.value.likeCount++;
+      res = await api.likePost(post.value.postId, userId);
+      post.value.likeCount = post.value.likeCount + 1;
     }
 
     isLiked.value = !isLiked.value;
+
+    // 서버 응답에 최신 likeCount 있으면 반영 (null 체크)
+    if (res?.data?.data?.likeCount !== undefined) {
+      post.value.likeCount = res.data.data.likeCount;
+    }
+
     console.log('[DEBUG] toggleLike 실행됨');
   } catch (e) {
-    console.error('좋아요 토글 실패', e.response?.data || e.message);
+    console.error('좋아요 토글 실패:', e.response?.data || e.message);
     alert('좋아요 요청에 실패했습니다.');
   }
+};
+
+
+const confirmDeletePost = () => {
+  showDeleteModal.value = true;
+};
+
+const goToEditPage = async () => {
+  showEditConfirmModal.value = false; // 수정 모달 닫기
+  await router.push({ name: 'PostEdit', params: { postId: post.value.postId } });
+};
+
+
+const closeNoPermissionModal = () => {
+  isNoPermission.value = false; // 권한 없음 모달 닫기
+};
+
+// const goToEditPage = async () => {
+//   isAuthorMismatch.value = false;
+//   await router.push({ name: 'PostEdit', params: { postId: post.value.postId } });
+// };
+
+
+
+const confirmCancel = () => {
+  showCancelModal.value = true;
+};
+
+
+const cancelPost = () => {
+  router.push({ name: 'CommunityList' });
 };
 
 const editPost = async () => {
@@ -213,21 +390,18 @@ const editPost = async () => {
 
   const userId = authStore.userId;
 
-  // 🔍 서버로부터 정확한 작성자 정보 재조회
   try {
     const res = await api.fetchPostById(post.value.postId);
     const postData = res.data.data;
 
-    // if (postData.userId !== userId) {
     if (Number(postData.userId) !== Number(userId)) {
-      console.log('userId', postData.userId)
-      console.log('userId', userId)
-      isAuthorMismatch.value = true; // 모달 열기
+      // 작성자와 사용자 ID가 다르면 "권한 없음" 모달 띄움
+      isNoPermission.value = true;
       return;
     }
 
-    // 작성자인 경우에만 이동
-    await router.push({name: 'PostEdit', params: {postId: post.value.postId}});
+    // 작성자라면 수정할 건지 묻는 모달 띄움
+    showEditConfirmModal.value = true;
 
   } catch (err) {
     console.error('게시글 확인 실패', err);
@@ -235,30 +409,95 @@ const editPost = async () => {
   }
 };
 
+
+// const editPost = async () => {
+//   if (!post.value?.postId) {
+//     alert('게시글 정보를 찾을 수 없습니다.');
+//     return;
+//   }
+//
+//   const userId = authStore.userId;
+//
+//   try {
+//     const res = await api.fetchPostById(post.value.postId);
+//     const postData = res.data.data;
+//
+//     if (Number(postData.userId) !== Number(userId)) {
+//       isAuthorMismatch.value = true; // 모달로 처리
+//       return;
+//     }
+//
+//     // 작성자면 바로 수정 이동
+//     await router.push({ name: 'PostEdit', params: { postId: post.value.postId } });
+//
+//   } catch (err) {
+//     console.error('게시글 확인 실패', err);
+//     alert('게시글을 확인할 수 없습니다.');
+//   }
+// };
+
+
+
+
 const goBack = () => {
-  router.back();
+  router.push({ name: 'CommunityList', query: { refreshed: true } });
 };
 
 const deletePost = async () => {
   if (!post.value?.postId) {
-    alert('삭제할 게시글이 없습니다.');
+    successMessage.value = '삭제할 게시글이 없습니다.';
+    showSuccessModal.value = true;
     return;
   }
-
-  const confirmed = confirm('정말 삭제하시겠습니까?');
-  if (!confirmed) return;
 
   const userId = authStore.userId;
 
   try {
     await api.deletePost(post.value.postId, userId);
-    alert('게시글이 삭제되었습니다.');
-    router.push({ name: 'CommunityList' }); // ✅ 목록 페이지로 이동
+    successMessage.value = '게시글이 삭제되었습니다.';
+    showSuccessModal.value = true;
   } catch (e) {
     console.error('게시글 삭제 실패:', e.response?.data || e.message);
-    alert('삭제 중 오류가 발생했습니다.');
+    successMessage.value = '삭제 중 오류가 발생했습니다.';
+    showSuccessModal.value = true;
+  } finally {
+    showDeleteModal.value = false;
   }
 };
+
+const handleSuccessConfirm = () => {
+  showSuccessModal.value = false;
+  router.push({ name: 'CommunityList' });
+};
+
+
+const requestDeleteComment = (commentId) => {
+  targetCommentId.value = commentId;
+  showCommentDeleteModal.value = true;
+};
+
+const deleteComment = async () => {
+  try {
+    const userId = authStore.userId;
+    await api.deleteComment(post.value.postId, targetCommentId.value, userId);
+
+    showCommentDeleteModal.value = false;
+    commentSuccessMessage.value = '댓글이 삭제되었습니다.';
+    showCommentSuccessModal.value = true;
+
+    await fetchPost();
+  } catch (e) {
+    console.error('댓글 삭제 실패:', e.response?.data || e.message);
+    alert('댓글 삭제 중 오류가 발생했습니다.');
+    showCommentDeleteModal.value = false;
+  }
+};
+
+const handleCommentDeleteConfirm = () => {
+  showCommentSuccessModal.value = false;
+};
+
+
 
 const toggleCommentLike = async (commentId) => {
   try {
@@ -266,7 +505,7 @@ const toggleCommentLike = async (commentId) => {
     const comment = post.value.comments.find(c => c.commentId === commentId);
     if (!comment) return;
 
-    if (comment.isLiked) {
+    if (comment.liked) {
       await api.unlikeComment(commentId, userId);
       comment.likeCount--;
     } else {
@@ -274,22 +513,24 @@ const toggleCommentLike = async (commentId) => {
       comment.likeCount++;
     }
 
-
-    comment.isLiked = !comment.isLiked;
-    post.value.comments[comment] = comment; // ✅ 반응형 갱신
-
+    comment.liked = !comment.liked;
   } catch (e) {
     console.error('댓글 좋아요 실패:', e.response?.data || e.message);
     alert('댓글 좋아요 처리 중 오류가 발생했습니다.');
   }
 };
 
+const totalCommentLikes = computed(() => {
+  if (!post.value?.comments) return 0;
+  return post.value.comments.reduce((sum, c) => sum + (c.likeCount || 0), 0);
+});
+
 
 const openMiniProfile = async (event, targetId) => {
   try {
     const res = await getUserProfile({ targetId });
-    // console.log('[DEBUG] 프로필 응답:', res.data.data);
-    // console.log('user.id', res.data.data.member.user.userId)
+    console.log('[DEBUG] 프로필 응답:', res.data.data);
+    console.log('user.id', res.data.data.member.user.userId)
     selectedUser.value = res.data.data.member;
 
     const targetEl = event.currentTarget || event.target;
@@ -313,6 +554,8 @@ const closeMiniProfile = () => {
 };
 
 onMounted(fetchPost);
+
+
 </script>
 
 <style scoped>
@@ -374,18 +617,12 @@ onMounted(fetchPost);
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  //padding: 6px 12px;
-  //border: none;
-  //border-radius: 6px;
-  //background-color: #f0f0f0;
-  //cursor: pointer;
-  //box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-  //transition: background-color 0.3s ease;
 }
+
 .action-buttons button:hover {
   background-color: #3548d3;
-  //background-color: #d0d0ff;
 }
+
 .post-images {
   display: flex;
   gap: 10px;
@@ -507,6 +744,85 @@ onMounted(fetchPost);
   color: #333;
 }
 
+.comment-like {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: black;
+}
+
+.comment-like .like-icon {
+  width: 20px;
+  height: 15px;
+}
+
+.comment-header-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 20px 0 12px;
+  color: #333;
+}
 
 
+.comment-info-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.comment-count,
+.comment-like-count {
+  font-size: 1rem;
+  color: #000;
+}
+
+.like-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.like-section {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 하트와 숫자 간격 */
+  cursor: pointer;
+}
+
+.delete-comment-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.delete-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  filter: none; /* 또는 삭제 */
+  margin-left: 8px;
+}
+
+.delete-icon:hover {
+  filter: none;
+}
+
+.comment-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 </style>

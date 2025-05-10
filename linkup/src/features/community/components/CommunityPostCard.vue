@@ -1,5 +1,6 @@
 <template>
-  <a class="post-card" @click.prevent="goToDetail(post.postId)">
+<!--  <a class="post-card" @click.prevent="goToDetail(post.postId)">-->
+  <a class="post-card" :class="{ notice: post.isNotice === 'Y' }" @click.prevent="goToDetail(post.postId)">
     <!-- 공지사항이 아닐 때만 썸네일 표시 -->
     <img
         v-if="post.isNotice !== 'Y'"
@@ -24,8 +25,12 @@
       <div class="post-footer">
         <span class="nickname">{{ post.nickname }}</span>
         <!-- 공지사항이 아닐 때만 좋아요/댓글 수 표시 -->
+
         <div v-if="post.isNotice !== 'Y'" class="likes-comments">
-          ❤️ {{ post.likeCount || 0 }} 💬 {{ post.commentCount || 0 }}
+          <img src="@/assets/icons/community/heart.svg" alt="좋아요" class="icon" />
+          {{ post.likeCount || 0 }}
+          <img src="@/assets/icons/community/comments.svg" alt="댓글" class="icon" />
+          {{ post.commentCount || 0 }}
         </div>
       </div>
     </div>
@@ -124,6 +129,24 @@ const formatDate = (dateStr) => {
   justify-content: space-between; /* 왼쪽/오른쪽 정렬 */
   align-items: center;
   margin-bottom: 6px;
+}
+
+
+.icon {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.likes-comments {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-card.notice {
+  background-color: #edf3ff;
+  border: 1px solid #bcd0ff;
 }
 </style>
 

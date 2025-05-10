@@ -27,8 +27,15 @@
           {{ comment.commentContent }}
         </div>
 
-        <div class="comment-footer">
-          ❤️ {{ comment.likeCount || 0 }}
+<!--        <div class="comment-footer" @click="toggleLike(comment)" style="cursor: pointer;">-->
+          <div class="comment-footer" >
+          <img
+              :src="comment.liked ? '/src/assets/icons/community/heart.svg' : '/src/assets/icons/community/empty_heart.svg'"
+              alt="like"
+              class="like-icon"
+              @click.stop="toggleLike(comment)"
+          />
+          <span>{{ comment.likeCount || 0 }}</span>
         </div>
       </div>
     </div>
@@ -45,7 +52,6 @@ defineProps({
   }
 });
 
-const emit = defineEmits(['openProfile']);
 
 const defaultImage = 'https://api.dicebear.com/7.x/thumbs/svg?seed=guest';
 
@@ -54,6 +60,13 @@ const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString();
 const emitProfile = (userId, event) => {
   emit('openProfile', { userId, event });
 };
+
+const emit = defineEmits(['openProfile', 'toggleCommentLike']);
+
+const toggleLike = (comment) => {
+  emit('toggleCommentLike', comment.commentId);
+};
+
 </script>
 
 <style scoped>
@@ -127,4 +140,12 @@ const emitProfile = (userId, event) => {
   color: #aaa;
   padding: 12px;
 }
+
+.like-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
 </style>

@@ -71,9 +71,9 @@ button {
   <div class="comment-form">
     <textarea
         v-model="newComment"
-        placeholder="댓글을 입력해주세요..."
+        placeholder="댓글을 입력해주세요."
     />
-    <button @click="submitComment">💬 댓글 등록</button>
+    <button @click="submitComment"> 댓글 등록</button>
   </div>
 </template>
 
