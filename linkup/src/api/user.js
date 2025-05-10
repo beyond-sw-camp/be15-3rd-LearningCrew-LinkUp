@@ -16,23 +16,17 @@ import api from './axios.js';
  * @property {string} message - 응답 메시지
  */
 
-/* 1. 회원 가입 */
+/* 1-1. 일반 회원 가입 */
 export function registerUser(data) {
   return api.post('/user-service/users/register', data);
 }
 
-/* 2. 로그인 */
-/**
- * @typedef {Object} LoginRequest
- * @property {string} email - 사용자 이메일 (ID)
- * @property {string} password - 사용자 비밀번호
- */
+/* 1-2. 사업자 회원 가입 */
+export function registerBusinessUser(data) {
+  return api.post('/user-service/users/register-business', data);
+}
 
-/**
- * 로그인 요청
- * @param {LoginRequest} data - 로그인 요청 데이터
- * @returns {Promise<ApiResponse<TokenResponse>>} 서버 응답 (액세스 토큰, 리프레시 토큰 포함)
- */
+/* 2. 로그인 */
 export function loginUser(data) {
   return api.post('/user-service/auth/login', data);
 }
@@ -92,25 +86,59 @@ export function getUserProfile(params) {
   return api.get('/user-service/users/me/profile/other', { params });
 }
 
-export const sendFriendRequest = (targetMemberId) => {
-  return api.post(`/user-service/friends/${targetMemberId}`);
-};
-
-/**
- * [모임 이력 조회 API]
- * @param {Object} params - 조회 조건
- * @param {string|null} params.status - 모임 상태 (COMPLETED, CANCELLED, UPCOMING)
- * @param {number} params.page - 페이지 번호 (0부터 시작)
- * @param {number} params.size - 페이지 크기
- * @returns {Promise<ApiResponse<PageResponse<MeetingHistoryResponse>>>}
- */
-export function getUserMeetingHistory({ status, page, size }) {
-  return api.get('/common-service/user/meetings/history', {
-    params: { status, page, size },
-  });
-}
-
 /* 14. 프로필 조회 */
 export function getMyProfile() {
   return api.get('/user-service/users/me/profile');
 }
+
+/* 15. 정산 계좌 등록 */
+export function registerSettlementAccount(data) {
+  return api.post('/common-service/users/me/account', data);
+}
+
+/* 18. 모임 내역 조회 */
+export function getUserMeetingHistory({ status, page, size }) {
+  return api.get('/user-service/users/me/meetings/history', {
+    params: { status, page, size },
+  });
+  ㄱ;
+}
+
+/* 19. 친구 신청 */
+export const sendFriendRequest = (targetMemberId) => {
+  return api.post(`/user-service/friends/${targetMemberId}`);
+};
+
+/* 20. 프로필 수정 */
+export function updateProfile(data) {
+  return api.put('/user-service/users/me/profile', data);
+}
+
+/* 21. 개설 모임 이력 조회 */
+export function getMyCreatedMeetings({ status, page, size }) {
+  return api.get('/user-service/users/me/meetings/created', {
+    params: { status, page, size },
+  });
+}
+
+/* 22. 친구 모임 이력 조회 */
+export function getFriendCreatedMeetings(page, size) {
+  return api.get('/user-service/users/me/meetings/friend/created', {
+    params: { page, size },
+  });
+}
+
+/* 23. 작성한 댓글 조회 */
+export function getMyComments() {
+  return api.get('/user-service/users/me/comments');
+}
+
+/* 24. 작성한 게시글 조회 */
+export function getMyPosts() {
+  return api.get('/user-service/users/me/posts');
+}
+
+/* 25. 회원 탈퇴 */
+export const withdrawUser = (request) => {
+  return api.delete('/user-service/users/withdraw', { data: request });
+};

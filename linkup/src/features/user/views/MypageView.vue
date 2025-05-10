@@ -5,7 +5,7 @@ import DefaultMainLayout from '@/components/layout/DefaultMainLayout.vue';
 </script>
 
 <template>
-  <SidebarMainLayout width="350px">
+  <SidebarMainLayout width="280px">
     <template #sidebar>
       <SidebarMenuUser />
     </template>

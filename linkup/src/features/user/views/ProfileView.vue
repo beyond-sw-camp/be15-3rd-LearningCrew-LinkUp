@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getMyProfile, getUserDetail } from '@/api/user.js'; // 유저 상세 조회 API 호출
+import WithdrawModal from '@/features/user/components/WithdrawModal.vue';
 
 // 사용자 데이터 구조
 const user = ref({
@@ -15,6 +16,8 @@ const user = ref({
   introduction: '',
   profileImageUrl: '',
 });
+
+const isWithdrawModalOpen = ref(false);
 
 // 프로필 데이터 불러오기
 const fetchUserProfile = async () => {
@@ -89,6 +92,11 @@ onMounted(() => {
         </p>
       </section>
     </div>
+
+    <!-- 탈퇴 버튼 -->
+    <button @click="isWithdrawModalOpen = true" class="withdraw-button">회원 탈퇴</button>
+
+    <WithdrawModal v-if="isWithdrawModalOpen" @cancel="isWithdrawModalOpen = false" />
   </section>
 </template>
 
@@ -151,5 +159,9 @@ onMounted(() => {
 
 .introduction-content {
   @apply bg-gray-100 p-4 rounded-md text-sm leading-relaxed text-gray-700;
+}
+
+.withdraw-button {
+  @apply mt-8 bg-warning-default text-white font-semibold py-2 px-4 rounded hover:bg-red-600;
 }
 </style>

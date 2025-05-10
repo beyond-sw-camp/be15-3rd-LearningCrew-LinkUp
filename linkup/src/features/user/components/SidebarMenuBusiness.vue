@@ -16,6 +16,7 @@ onMounted(async () => {
     isLoading.value = true;
     isError.value = false;
     const { data } = await getBusinessMypage();
+    console.log(data);
     userInfo.value = data.data;
   } catch (e) {
     console.error('사업자 마이페이지 조회 실패', e);
@@ -46,6 +47,7 @@ const navigationItems = computed(() => [
     path: '/mypage/business/settlement-history',
   },
   { name: 'places', label: '운영 중인 장소 목록', path: '/mypage/business/places' },
+  { name: 'account', label: '정산 계좌 조회', path: '/mypage/business/account' },
   { name: 'password', label: '비밀번호 변경', path: '/mypage/business/password' },
 ]);
 </script>
@@ -57,7 +59,6 @@ const navigationItems = computed(() => [
     <template v-else>
       <!-- 프로필 섹션 -->
       <section class="profile-section">
-        <img :src="userInfo.profileImageUrl" alt="프로필 이미지" class="profile-img" />
         <h2 class="profile-name">{{ userInfo.userName }}</h2>
       </section>
 

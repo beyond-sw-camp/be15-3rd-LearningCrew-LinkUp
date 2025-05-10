@@ -1,7 +1,7 @@
 import './assets/css/index.css';
 import 'pretendard/dist/web/static/pretendard.css';
 import Toast from 'vue-toastification';
-import 'vue-toastification/dist/index.css'; // 스타일도 꼭 가져와야 합니다
+import 'vue-toastification/dist/index.css';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -9,11 +9,13 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import { useAuthStore } from '@/stores/auth.js';
-import { refreshUserToken } from '@/api/user.js';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 async function bootstrap() {
   const app = createApp(App);
-  app.use(createPinia());
+  const pinia = createPinia();
+  pinia.use(piniaPluginPersistedstate);
+  app.use(pinia);
 
   /* 새로고침시 accessToken 재할당 */
   const authStore = useAuthStore();

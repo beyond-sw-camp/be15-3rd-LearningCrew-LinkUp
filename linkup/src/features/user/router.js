@@ -12,6 +12,11 @@ export const userRoutes = [
         component: () => import('@/features/user/views/ProfileView.vue'),
       },
       {
+        path: 'profile/edit',
+        name: 'mypage-profile-edit',
+        component: () => import('@/features/user/views/ProfileEditView.vue'),
+      },
+      {
         path: 'joined-meetings',
         name: 'mypage-joined-meetings',
         component: () => import('@/features/user/views/JoinedMeetingsView.vue'),
@@ -37,14 +42,24 @@ export const userRoutes = [
         component: () => import('@/features/user/views/CommentsView.vue'),
       },
       {
-        path: 'friends',
-        name: 'mypage-friends',
-        component: () => import('@/features/user/views/FriendsView.vue'),
+        path: 'friends/request',
+        name: 'mypage-friend-request',
+        component: () => import('@/features/user/views/FriendRequestListView.vue'),
+      },
+      {
+        path: 'friends/accepted',
+        name: 'mypage-friends-list',
+        component: () => import('@/features/user/views/FriendListView.vue'),
       },
       {
         path: 'friend-meetings',
         name: 'mypage-friend-meetings',
         component: () => import('@/features/user/views/FriendMeetingsView.vue'),
+      },
+      {
+        path: 'account',
+        name: 'mypage-account',
+        component: () => import('@/features/user/views/AccountView.vue'),
       },
       {
         path: 'password',
@@ -75,14 +90,14 @@ export const userRoutes = [
         component: () => import('@/features/user/views/PlacesView.vue'),
       },
       {
+        path: 'account',
+        name: 'mypage-business-account',
+        component: () => import('@/features/user/views/AccountView.vue'),
+      },
+      {
         path: 'password',
         name: 'business-password',
         component: () => import('@/features/user/views/PasswordView.vue'),
-      },
-      {
-        path: 'profile',
-        name: 'business-profile',
-        component: () => import('@/features/user/views/ProfileView.vue'),
       },
     ],
   },
