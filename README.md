@@ -552,6 +552,8 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 </details>
 
+<br>
+
 <details>
 <summary>포인트</summary>
 
@@ -584,7 +586,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 </details>
 
-
+<br>
 
 <details>
 <summary>모임</summary>
@@ -635,6 +637,8 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 </details>
 
 <br>
+
+<details>
 <summary>커뮤니티</summary>
 
 - STEP087  게시글 목록 조회
@@ -689,7 +693,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 - STEP102 댓글 좋아요 취소
   <img src="assets/test_cases/community/STEP102 CommentUnlike.jpg.jpg" alt="STEP095 댓글 좋아요 취소"/>
 
-
+</details>
 
 <br>
 
