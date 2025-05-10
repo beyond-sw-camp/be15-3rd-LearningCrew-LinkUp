@@ -530,24 +530,23 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 <details>
 <summary>회원</summary>
 - STEP02~06 회원 가입
-<img src="assets/test_cases/auth/step02-06-register_user.PNG" alt="STEP02~06 회원 회원가입"/>
-<img src="assets/test_cases/auth/step02-06-register_business.PNG" alt="STEP02~06 사업자 회원가입"/>
+<img src="assets/test_cases/user/step02-06-register_user.gif" alt="STEP02~06 회원 회원가입"/>
+<img src="assets/test_cases/user/step02-06-register_business.gif" alt="STEP02~06 사업자 회원가입"/>
 - STEP07 회원 가입 완료
-<img src="assets/test_cases/auth/step07-regist_complete.PNG" alt="STEP07 회원가입 완료"/>
+<img src="assets/test_cases/user/step07-regist_complete.PNG" alt="STEP07 회원가입 완료"/>
 - STEP08 이메일 인증
-<img src="assets/test_cases/auth/step08-verify_email.PNG" alt="STEP08 이메일 인증"/>
-- STEP09 비밀번호 찾기(비밀번호 링크 전송)
-<img src="assets/test_cases/auth/step09-reset-password-link.PNG" alt="STEP09 비밀번호 찾기(비밀번호 링크 전송)"/>
-- STEP010 비밀번호 재설정
-<img src="assets/test_cases/auth/step11-reset-password.PNG" alt="STEP10 비밀번호 재설정"/>
+<img src="assets/test_cases/user/step08-verify_email_fail.PNG" alt="STEP08 이메일 인증"/>
+   <img src="assets/test_cases/user/step08-verify_email_success.PNG" alt="STEP08 이메일 인증"/>
+- STEP09-10 비밀번호 찾기(비밀번호 링크 전송) 및 비밀번호 재설정
+<img src="assets/test_cases/user/step09-reset-password-link.gif" alt="STEP09-10 비밀번호 찾기(비밀번호 링크 전송)"/>
 - STEP11~12 로그인 정보 입력  
-<img src="assets/test_cases/auth/step12-login.PNG" alt="STEP11~12 로그인"/>
+<img src="assets/test_cases/user/step11-12-login.gif" alt="STEP11~12 로그인"/>
 - STEP13 로그아웃
-<img src="assets/test_cases/auth/step13-logout.PNG" alt="STEP13 로그아웃"/>
+<img src="assets/test_cases/user/step13-logout.gif" alt="STEP13 로그아웃"/>
 - STEP21~22 회원탈퇴
-<img src="assets/test_cases/auth/step21-22-withdraw.PNG" alt="STEP21-22 회원탈퇴"/>
+<img src="assets/test_cases/user/step21-22-withdraw.gif" alt="STEP21-22 회원탈퇴"/>
 - STEP23~24 복구완료
-<img src="assets/test_cases/auth/step23-24-recover.PNG" alt="STEP21-22 복구완료"/>
+<img src="assets/test_cases/user/step23-24-recover.gif" alt="STEP21-22 복구완료"/>
 
 <details>
 <summary>포인트</summary>
