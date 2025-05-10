@@ -138,6 +138,8 @@
               <button class="report-comment-btn" @click="reportComment(comment.commentId)">
                 <img src="@/assets/icons/community/report.svg" alt="신고" class="report-icon" />
               </button>
+
+
             </div>
           </div>
 
@@ -210,6 +212,24 @@
       :cancelText="null"
       @confirm="closeNoPermissionModal"
   />
+
+  <CommunityReportModal
+      v-if="showReportModal"
+      :modelValue="showReportModal"
+      type="post"
+      :targetInfo="{ content: post?.title, nickname: post?.nickname }"
+      @update:modelValue="showReportModal = $event"
+      @submit="handleReportSubmit"
+  />
+
+  <CommunityReportModal
+      v-if="showCommentReportModal"
+      :modelValue="showCommentReportModal"
+      type="comment"
+      :targetInfo="{ content: targetComment?.commentContent, nickname: targetComment?.nickname }"
+      @update:modelValue="showCommentReportModal = $event"
+      @submit="handleCommentReportSubmit"
+  />
 </template>
 
 <script setup>
@@ -223,6 +243,39 @@ import PostCompleteModal from '@/features/community/components/CommunityModal.vu
 import { useAuthStore } from '@/stores/auth';
 import HeartIcon from '@/assets/icons/community/heart.svg';
 import EmptyHeartIcon from '@/assets/icons/community/empty_heart.svg';
+import CommunityReportModal from '@/features/community/components/CommunityReportModal.vue';
+
+const showReportModal = ref(false);
+const showCommentReportModal = ref(false);
+
+const targetComment = ref(null)
+
+  const reportPost = () => {
+  showReportModal.value = true;
+};
+
+  const handleReportSubmit = (data) => {
+  console.log('[DEBUG] 신고 사유:', data);
+  alert('신고가 접수되었습니다.');
+};
+
+
+
+const reportComment = (commentId) => {
+  const comment = post.value?.comments?.find(c => c.commentId === commentId);
+  if (!comment) return;
+
+  console.log('[DEBUG] 댓글 신고 클릭됨:', commentId);
+  targetComment.value = comment;
+  showCommentReportModal.value = true;
+};
+
+const handleCommentReportSubmit = (data) => {
+  console.log('[DEBUG] 댓글 신고 사유:', data);
+  alert('댓글 신고가 접수되었습니다.');
+  showCommentReportModal.value = false;
+};
+
 
 const authStore = useAuthStore();
 const isAuthorMismatch = ref(false);

@@ -578,6 +578,63 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 </details>
 
 <br>
+<summary>커뮤니티</summary>
+
+- STEP087  게시글 목록 조회
+  <img src="assets/test_cases/community/STEP087 PostList.jpg" alt="STEP087  게시글 목록 조회"/>
+
+- STEP088 게시글 상세 조회
+  <img src="assets/test_cases/community/STEP088 PostDetail.jpg" alt="STEP088 게시글 상세 조회"/>
+
+- STEP089 공지사항 작성 / 작성완료 모달
+  <img src="assets/test_cases/community/STEP089 NoticeCreate.jpg" alt="STEP089 공지사항 작성"/>
+  <img src="assets/test_cases/community/STEP089 NoticeCompleteModal.jpg" alt="STEP089 공지사항 작성완료 모달"/>
+
+- STEP090 공지사항 수정
+  <img src="assets/test_cases/community/STEP90 NoticeEdit.jpg" alt="STEP090 공지사항 수정 "/>
+
+- STEP091 공지사항 삭제
+  <img src="assets/test_cases/community/STEP91 NoticeDelete.jpg" alt="STEP091 공지사항 삭제 "/>
+
+- STEP092 게시글 작성
+  <img src="assets/test_cases/community/STEP092 PostCreate.jpg" alt="STEP092 게시글 작성 "/>
+
+- STEP093 게시글 수정 / 수정 후 
+  <img src="assets/test_cases/community/STEP093 PostEditView.jpg" alt="STEP093 게시글 수정 "/>
+  <img src="assets/test_cases/community/STEP093 PostEditComplete.jpg" alt="STEP093 게시글 수정 후 "/>
+
+- STEP094 게시글 삭제 전 / 삭제 후
+  <img src="assets/test_cases/community/STEP94 PostDelete.jpg" alt="STEP94 게시글 삭제 전 "/>
+  <img src="assets/test_cases/community/STEP94 PostDeleteComplete.jpg" alt="STEP94 게시글 삭제 후 "/>
+
+- STEP095 게시글 신고 / 신고 유형
+  <img src="assets/test_cases/community/STEP95 PostReport.jpg" alt="STEP095 게시글 신고 "/>
+  <img src="assets/test_cases/community/STEP94 PostDeleteComplete.jpg" alt="STEP095 게시글 신고 유형 "/>
+
+- STEP096 게시글 좋아요
+  <img src="assets/test_cases/community/STEP96 PostLike.jpg" alt="STEP095 게시글 좋아요 "/>
+
+- STEP097 게시글 좋아요 취소
+  <img src="assets/test_cases/community/STEP97 PostUnlike.jpg" alt="STEP095 게시글 좋아요 취소"/>
+
+- STEP098 댓글 작성
+  <img src="assets/test_cases/community/STEP98CommentCreate.jpg" alt="STEP098 댓글 작성 "/>
+
+- STEP099 댓글 삭제
+  <img src="assets/test_cases/community/STEP99 CommentDelete.jpg" alt="STEP099 댓글 삭제 "/>
+
+- STEP100 댓글 신고
+  <img src="assets/test_cases/community/STEP100 CommentReport.jpg" alt="STEP100 댓글 신고 "/>
+
+- STEP101 댓글 좋아요
+  <img src="assets/test_cases/community/STEP101 CommentLike.jpg" alt="STEP101 댓글 좋아요 "/>
+
+- STEP102 댓글 좋아요 취소
+  <img src="assets/test_cases/community/STEP102 CommentUnlike.jpg.jpg" alt="STEP095 댓글 좋아요 취소"/>
+
+
+
+<br>
 
 <details>
 <summary>관리자</summary>
