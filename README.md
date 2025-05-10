@@ -500,7 +500,9 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 ### 2. 🧩 기능 정의서
 
-🔗 [테스트 케이스 정의서 링크](https://docs.google.com/spreadsheets/d/e/2PACX-1vS5z7lnFVoKhrHU0zT55KpMlmla72tCCbzkwDi_7PyI23dByzC5GMS2v7jT-7YjDzr9LlZDPXG-xev4/pubhtml?gid=422442986&single=true)
+🔗 [테스트 케이스 정의서 링크](https://docs.google.com/spreadsheets/d/e/2PACX-1vS5z7lnFVoKhrHU0zT55KpMlmla72tCCbzkwDi_7PyI23dByzC5GMS2v7jT-7YjDzr9LlZDPXG-xev4/pubhtml?gid=1831050746&single=true)
+
+🔗 [테스트 케이스 상세 정의서 링크](https://docs.google.com/spreadsheets/d/e/2PACX-1vS5z7lnFVoKhrHU0zT55KpMlmla72tCCbzkwDi_7PyI23dByzC5GMS2v7jT-7YjDzr9LlZDPXG-xev4/pubhtml?gid=422442986&single=true)
 
 🔗 [기능 정의서 링크](https://docs.google.com/spreadsheets/d/e/2PACX-1vS5z7lnFVoKhrHU0zT55KpMlmla72tCCbzkwDi_7PyI23dByzC5GMS2v7jT-7YjDzr9LlZDPXG-xev4/pubhtml?gid=424986982&single=true)
 
@@ -514,7 +516,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 ### 3. 💻 화면 설계서
 
-🔗 [피그마 화면 설계서 링크](#)
+🔗 [피그마 화면 설계서 링크](https://www.figma.com/design/jEGnBIlU0zxlOhmgaoiDCN/LearningCrew?m=auto&t=UTeQd79HSA6Z7cK2-6)
 
 <img src="assets/images/design.png" alt="design"/>
 
