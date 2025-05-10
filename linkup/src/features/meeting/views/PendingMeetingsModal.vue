@@ -16,7 +16,7 @@ onMounted(async () => {
   try {
     const userId = userStore.userId;
     const response = await api.get(`common-service/meetings/user/${userId}/pending`);
-    meetings.value = response.data.data.meeting;
+    meetings.value = response.data.data.meetings;
   } catch (e) {
     console.error('참가 신청 모임 조회 실패', e);
   } finally {
@@ -40,6 +40,10 @@ const statusName = (id) => {
       return '모임 진행 완료';
   }
 };
+
+const goToMeetingDetails = (meetings) => {
+  router.push(`/meetings/${meetings.meetingId}`)
+}
 </script>
 
 <template>
@@ -71,7 +75,7 @@ const statusName = (id) => {
               alt="썸네일"
               class="assignment-thumb"
             />
-            <div class="assignment-content">
+            <div class="assignment-content" @click="goToMeetingDetails(meeting)">
               <div class="assignment-title">{{ meeting.meetingTitle }}</div>
               <div class="assignment-address">
                 {{ meeting.placeName || meeting.customPlaceAddress }}
