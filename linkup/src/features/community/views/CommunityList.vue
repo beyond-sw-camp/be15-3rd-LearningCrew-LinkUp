@@ -4,9 +4,10 @@
     <div class="search-write-container">
       <div class="search-container">
         <select v-model="searchType">
-          <option value="all">제목+본문</option>
+          <option value="all">제목+본문+닉네임</option>
           <option value="title">제목</option>
           <option value="content">본문</option>
+          <option value="content">닉네임</option>
         </select>
         <input v-model="searchKeyword" type="text" placeholder="검색어를 입력하세요" />
         <button @click="searchPosts">검색</button>
@@ -48,11 +49,33 @@ const searchType = ref('all');
 const searchKeyword = ref('');
 const router = useRouter();
 
+// const loadPosts = async () => {
+//   if (isLoading.value || isLastPage.value) return;
+//   isLoading.value = true;
+//   try {
+//     const response = await fetchPosts(page.value, size);
+//     const { posts: newPosts, pagination } = response.data.data;
+//
+//     allPosts.value.push(...newPosts);
+//     isLastPage.value = pagination.totalPage === page.value;
+//     page.value++;
+//   } catch (err) {
+//     console.error('게시글 불러오기 실패:', err);
+//   } finally {
+//     isLoading.value = false;
+//   }
+// };
+
 const loadPosts = async () => {
   if (isLoading.value || isLastPage.value) return;
   isLoading.value = true;
   try {
-    const response = await fetchPosts(page.value, size);
+    const response = await fetchPosts(
+        page.value,
+        size,
+        searchType.value === 'all' ? null : searchType.value,
+        searchKeyword.value
+    );
     const { posts: newPosts, pagination } = response.data.data;
 
     allPosts.value.push(...newPosts);
@@ -65,8 +88,32 @@ const loadPosts = async () => {
   }
 };
 
-const searchPosts = () => {
-  alert(`검색 기능은 추후 구현 (타입: ${searchType.value}, 키워드: ${searchKeyword.value})`);
+
+// const searchPosts = () => {
+//   alert(`검색 기능은 추후 구현 (타입: ${searchType.value}, 키워드: ${searchKeyword.value})`);
+// };
+
+const searchPosts = async () => {
+  isLoading.value = true;
+  page.value = 1;
+  isLastPage.value = false;
+
+  try {
+    const response = await fetchPosts(
+        page.value,
+        size,
+        searchType.value === 'all' ? null : searchType.value,
+        searchKeyword.value
+    );
+    const { posts: newPosts, pagination } = response.data.data;
+    allPosts.value = newPosts;
+    isLastPage.value = pagination.totalPage === page.value;
+    page.value++;
+  } catch (err) {
+    console.error('검색 실패:', err);
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 const goToWrite = () => {
