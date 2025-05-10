@@ -102,30 +102,30 @@
             </span>
         </h2>
 
+        <div class="comment" v-for="comment in post.comments" :key="comment.commentId">
+          <div class="comment-header">
+            <!-- 작성자 이미지 -->
+            <img :src="comment.profileImageUrl || defaultImage"
+                 class="comment-img"
+                 alt="comment_img"
+                 @click="openMiniProfile($event, comment.userId)" />
 
+            <!-- 작성자 정보 (이름과 날짜) -->
+            <div class="comment-meta">
+              <div class="comment-user">
+        <span class="comment-nickname" @click="openMiniProfile($event, comment.userId)">
+          {{ comment.nickname }}
+        </span>
+                <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
+              </div>
+            </div>
 
-      <div class="comment" v-for="comment in post.comments" :key="comment.commentId">
-        <div class="comment-header">
-          <img :src="comment.profileImageUrl || defaultImage"
-               class="comment-img"
-               alt="comment_img"
-               @click="openMiniProfile($event, comment.userId)" />
-          <div class="comment-meta">
-            <div class="comment-user">
-
-          <span class="comment-nickname" @click="openMiniProfile($event, comment.userId)">
-            {{ comment.nickname }}
-              </span>
-              <span class="comment-date">{{ formatDate(comment.createdAt) }}</span>
-
-
-              <div class="comment-footer">
-                <div class="comment-actions">
-              <span class="comment-like" @click="toggleCommentLike(comment.commentId)" >
-              <img :src="comment.liked ? HeartIcon : EmptyHeartIcon" alt="좋아요" class="like-icon" />
-              {{ comment.likeCount ?? 0 }}
-            </span>
-
+            <!-- 좋아요, 좋아요 수, 삭제, 신고 버튼들을 오른쪽에 정렬 -->
+            <div class="comment-actions">
+      <span class="comment-like" @click="toggleCommentLike(comment.commentId)">
+        <img :src="comment.liked ? HeartIcon : EmptyHeartIcon" alt="좋아요" class="like-icon" />
+        {{ comment.likeCount ?? 0 }}
+      </span>
 
               <button
                   v-if="Number(comment.userId) === Number(authStore.userId)"
@@ -135,18 +135,17 @@
                 <img src="@/assets/icons/community/delete.svg" alt="삭제" class="delete-icon" />
               </button>
 
-
-                <button class="report-comment-btn" @click="reportComment(comment.commentId)">
-                  <img src="@/assets/icons/community/report.svg" alt="신고" class="report-icon" />
-                </button>
-              </div>
+              <button class="report-comment-btn" @click="reportComment(comment.commentId)">
+                <img src="@/assets/icons/community/report.svg" alt="신고" class="report-icon" />
+              </button>
             </div>
-            </div>
-            <p class="comment-content">{{ comment.commentContent }}</p>
-
           </div>
+
+          <!-- 댓글 내용 -->
+          <p class="comment-content">{{ comment.commentContent }}</p>
         </div>
-      </div>
+
+
     </div>
 
 

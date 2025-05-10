@@ -201,7 +201,7 @@ const createPost = async () => {
     const id = response.data?.data?.postId || response.data?.data?.id;
     createdPostId.value = id;
 
-    modalTitle.value = '게시글 작성 완료';
+    modalTitle.value = post.value.isNotice ? '공지사항 작성 완료' : '게시글 작성 완료';
     modalMessage.value = post.value.isNotice ? '공지사항이 등록되었습니다.' : '게시글이 성공적으로 작성되었습니다.';
     isPopupVisible.value = true;
   } catch (err) {
