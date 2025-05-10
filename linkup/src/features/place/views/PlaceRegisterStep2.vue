@@ -61,14 +61,15 @@ for (let h = 0; h < 24; h++) {
 }
 
 const days = ref([
-  { label: '월요일', value: 'MONDAY', start: '', end: '' },
-  { label: '화요일', value: 'TUESDAY', start: '', end: '' },
-  { label: '수요일', value: 'WEDNESDAY', start: '', end: '' },
-  { label: '목요일', value: 'THURSDAY', start: '', end: '' },
-  { label: '금요일', value: 'FRIDAY', start: '', end: '' },
-  { label: '토요일', value: 'SATURDAY', start: '', end: '' },
-  { label: '일요일', value: 'SUNDAY', start: '', end: '' },
+  { label: '월요일', value: 'MONDAY', start: '09:00', end: '21:00' },
+  { label: '화요일', value: 'TUESDAY', start: '09:00', end: '21:00' },
+  { label: '수요일', value: 'WEDNESDAY', start: '09:00', end: '21:00' },
+  { label: '목요일', value: 'THURSDAY', start: '09:00', end: '21:00' },
+  { label: '금요일', value: 'FRIDAY', start: '09:00', end: '21:00' },
+  { label: '토요일', value: 'SATURDAY', start: '09:00', end: '21:00' },
+  { label: '일요일', value: 'SUNDAY', start: '09:00', end: '21:00' },
 ]);
+
 
 const handleSubmit = async () => {
   const operationTimes = days.value

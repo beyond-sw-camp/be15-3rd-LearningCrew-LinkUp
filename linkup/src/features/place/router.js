@@ -23,5 +23,11 @@ export const placeRoutes = [
     path: '/place/register/complete',
     name: 'PlaceRegisterComplete',
     component: () => import('@/features/place/views/PlaceRegisterComplete.vue'),
+  },
+  {
+    path: '/mypage/business/places',
+    name: 'business-places',
+    component: () => import('@/features/place/views/MyPlaceListView.vue')
   }
+
 ];

@@ -20,11 +20,19 @@
 
         <!-- 운영 시간 -->
         <section class="mt-4">
-          <h2 class="text-lg font-semibold mb-2">운영 시간</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 text-sm text-gray-700">
-            <div v-for="(ot, index) in detail.operationTimes" :key="index" class="flex justify-between border-b pb-1">
-              <span class="font-medium">{{ dayKorMap[ot.dayOfWeek] || ot.dayOfWeek }}</span>
-              <span>{{ ot.startTime }} ~ {{ ot.endTime }}</span>
+          <h2 class="text-base font-semibold mb-2">운영 시간</h2>
+          <div class="grid grid-cols-2 gap-3 text-sm text-gray-700">
+            <div
+              v-for="(ot, index) in detail.operationTimes"
+              :key="index"
+              class="rounded-lg border border-gray-200 bg-gray-50 p-4 shadow-sm flex flex-col items-start"
+            >
+              <div class="text-sm font-semibold text-gray-800 mb-1">
+                {{ dayKorMap[ot.dayOfWeek] || ot.dayOfWeek }}
+              </div>
+              <div class="text-xs text-gray-600">
+                {{ ot.startTime?.slice(0, 5) }} ~ {{ ot.endTime?.slice(0, 5) }}
+              </div>
             </div>
           </div>
         </section>
@@ -34,17 +42,27 @@
         <!-- 장소 후기 -->
         <section class="mt-4">
           <h2 class="text-lg font-semibold mb-4">장소 후기</h2>
-          <div v-for="(review, index) in detail.placeReviews" :key="index" class="flex justify-between bg-blue-50 p-4 rounded-lg shadow mb-4">
+          <div
+            v-for="(review, index) in detail.placeReviews"
+            :key="index"
+            class="flex justify-between bg-blue-50 p-4 rounded-lg shadow mb-4"
+          >
             <div class="w-2/3">
               <div class="flex items-center gap-2">
                 <span class="font-semibold text-gray-800">{{ review.nickname || '익명' }}</span>
                 <div class="flex">
-                  <img v-for="n in 5" :key="n" :src="n <= review.reviewScore ? fullStar : emptyStar" class="w-4 h-4" alt="별점" />
+                  <img
+                    v-for="n in 5"
+                    :key="n"
+                    :src="n <= review.reviewScore ? fullStar : emptyStar"
+                    class="w-4 h-4"
+                    alt="별점"
+                  />
                 </div>
               </div>
               <div class="text-xs text-gray-500 mt-1">{{ review.reviewDate || '작성일 미상' }}</div>
               <p class="mt-2 text-sm text-gray-700">{{ review.reviewContent }}</p>
-              <button class="mt-2 text-xs text-red-600 border border-red-600 px-2 py-1 rounded hover:bg-red-100">
+              <button class="mt-2 text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition">
                 삭제 요청
               </button>
             </div>
@@ -55,7 +73,10 @@
         </section>
 
         <!-- 버튼 -->
-        <button class="mt-6 w-full py-3 bg-green-600 text-white rounded hover:bg-green-700 transition" @click="showExternalReservation = true">
+        <button
+          class="mt-6 w-full py-3 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          @click="showExternalReservation = true"
+        >
           외부 예약 등록
         </button>
 
@@ -83,12 +104,19 @@ const showExternalReservation = ref(false);
 
 const dayKorMap = {
   MON: '월요일',
+  MONDAY: '월요일',
   TUE: '화요일',
+  TUESDAY: '화요일',
   WED: '수요일',
+  WEDNESDAY: '수요일',
   THU: '목요일',
+  THURSDAY: '목요일',
   FRI: '금요일',
+  FRIDAY: '금요일',
   SAT: '토요일',
+  SATURDAY: '토요일',
   SUN: '일요일',
+  SUNDAY: '일요일',
 };
 
 const fullStar = 'https://upload.wikimedia.org/wikipedia/commons/1/18/Five-pointed_star.svg';

@@ -3,6 +3,9 @@ import { ref, computed } from 'vue';
 import SidebarMainLayout from '@/components/layout/SidebarMainLayout.vue';
 import SearchBar from '@/features/main/components/SearchBar.vue';
 import CardList from '@/components/common/CardList.vue';
+import PlaceMap from '@/features/place/components/PlaceMap.vue';
+
+
 const sportsIcons = import.meta.glob('@/assets/icons/sports/*.svg', {
   eager: true,
   import: 'default',
@@ -18,6 +21,8 @@ const cards = ref([
     location: '서울 도봉구 방학로 223',
     likeCount: 32,
     price: '20,000원',
+    address: '서울 도봉구 방학로 223', // 👈 지도 마커 표시용
+    name: '도봉풋살장', // 👈 지도 마커 텍스트용
   },
   {
     imageUrl: 'https://cdn.pixabay.com/photo/2023/06/08/13/31/balls-8049598_1280.jpg',
@@ -27,13 +32,16 @@ const cards = ref([
     location: '서울 도봉구 방학로 223',
     likeCount: 32,
     price: '20,000원',
+    address: '서울 도봉구 방학로 223',
+    name: '방학풋살장',
   },
 ]);
 
 const filteredCards = computed(() => {
   if (!searchText.value) return cards.value;
   return cards.value.filter(
-    (card) => card.title.includes(searchText.value) || card.location.includes(searchText.value),
+    (card) =>
+      card.title.includes(searchText.value) || card.location.includes(searchText.value),
   );
 });
 
@@ -61,7 +69,7 @@ const searchItems = [
 
     <template #main>
       <main class="map-area" aria-label="지도 영역">
-        <div class="map-placeholder">지도 영역입니다.</div>
+        <PlaceMap :places="filteredCards" /> <!-- 👈 현재 위치 및 마커 표시 -->
       </main>
     </template>
   </SidebarMainLayout>
@@ -74,9 +82,5 @@ const searchItems = [
 
 .map-area {
   @apply flex-1 h-full flex items-center justify-center;
-}
-
-.map-placeholder {
-  @apply w-full h-full bg-gray-200 flex items-center justify-center;
 }
 </style>
