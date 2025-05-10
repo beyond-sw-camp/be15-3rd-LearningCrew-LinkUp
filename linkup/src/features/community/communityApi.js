@@ -29,13 +29,15 @@ export const createPost = (data) => api.post('/common-service/posts', data);
 export const uploadImages = (postId, formData) =>
         api.post(`/common-service/posts/${postId}/images`, formData);
 
+
 const updatePost = (postId, data) => {
-    return api.put(`/common-service/posts/${postId}`, formData, {
+    return api.put(`/common-service/posts/${postId}`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
 };
+
 
 const deletePost = (postId, userId) => {
     return api.put(`/common-service/posts/${postId}/delete?userId=${userId}`);
@@ -49,6 +51,28 @@ const unlikePost = (postId, userId) => {
     return api.delete(`/common-service/posts/${postId}/likes?userId=${userId}`);
 };
 
+
+const likeComment = (commentId, userId) => {
+    return api.post(`/common-service/comments/${commentId}/likes?userId=${userId}`);
+};
+
+const unlikeComment = (commentId, userId) => {
+    return api.delete(`/common-service/comments/${commentId}/likes?userId=${userId}`);
+}
+
+const fetchComments = (postId, userId) => {
+    return api.get(`/common-service/comments/post/${postId}`, {
+        params: { userId }
+    });
+};
+
+const deleteComment = (postId, commentId, userId) => {
+    return api.put(`/common-service/posts/${postId}/comments/${commentId}/delete`, null, {
+        params: { userId },
+    });
+};
+
+
 export default {
     fetchPosts,
     fetchPostById,
@@ -59,4 +83,8 @@ export default {
     uploadImages,
     likePost,
     unlikePost,
+    likeComment,
+    unlikeComment,
+    fetchComments,
+    deleteComment,
 };
