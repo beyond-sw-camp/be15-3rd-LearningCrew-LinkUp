@@ -4,8 +4,6 @@ import { useRouter } from 'vue-router';
 import MapDisplay from '@/components/common/MapDisplay.vue'
 
 
-// import '@/assets/css/search-common.css'
-
 const router = useRouter();
 
 const latitude = ref(null);

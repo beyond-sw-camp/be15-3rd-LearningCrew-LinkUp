@@ -145,12 +145,14 @@ function adjustOverlayScale() {
 </script>
 
 <style scoped>
-.map-container {
-  @apply w-full h-full;
-}
 .map-section {
-  flex: 1; /* 남은 공간 모두 차지 */
-  height: 100vh; /* 화면 전체 높이 */
+  flex: 1;
+  height: 100vh;
   position: relative;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
 }
 </style>

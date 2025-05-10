@@ -1,74 +1,75 @@
 <template>
-    <!-- 참가자 관리 모달 -->
-    <div v-if="visible" class="participant-modal">
-      <div class="modal-header">
-        <img src="@/assets/icons/meeting_and_place/sidebar-participated_meetings.svg" alt="참가자 관리" class="icon-img"/>
-        <h2>개설 모임 관리</h2>
-        <button class="close-btn" @click="closeModal">&times;</button>
-      </div>
-      <hr class="divider" />
+  <!-- 참가자 관리 모달 -->
+  <div v-if="visible" class="participant-modal">
+    <div class="modal-header">
+      <img src="@/assets/icons/meeting_and_place/sidebar-participated_meetings.svg" alt="참가자 관리" class="icon-img"/>
+      <h2>개설 모임 관리</h2>
+      <button class="close-btn" @click="closeModal">&times;</button>
+    </div>
+    <hr class="divider" />
 
-      <div class="participant-modal-content">
-        <h2>참가자 목록</h2>
-        <div
-          v-for="(participant, index) in participants"
-          :key="'participant-' + index"
-          class="participant-card"
-        >
-          <img :src="participant.profileImageUrl" alt="프로필" class="participant-thumb" />
-          <div class="participant-content">
-            <div class="participant-nickname">{{ participant.nickname }}</div>
-            <div class="participant-subinfo">매너온도: {{ participant.mannerTemperature }}°C</div>
-          </div>
-          <div class="participant-actions">
-            <template v-if="participant.nickname === leaderNickname">
-              <button class="participant-btn disabled" disabled>
-                <img src="@/assets/icons/meeting_and_place/crown.svg" alt="개설자" class="leader"/>
-                <span class="hidden-text">권한 위임</span>
-              </button>
-            </template>
-            <template v-else>
+    <div class="participant-modal-content">
+      <h2>참가자 목록</h2>
+      <div
+        v-for="(participant, index) in participants"
+        :key="'participant-' + index"
+        class="participant-card"
+      >
+        <img :src="participant.profileImageUrl" alt="프로필" class="participant-thumb" />
+        <div class="participant-content">
+          <div class="participant-nickname">{{ participant.nickname }}</div>
+          <div class="participant-subinfo">매너온도: {{ participant.mannerTemperature }}°C</div>
+        </div>
+        <div class="participant-actions">
+          <template v-if="participant.nickname === leaderNickname">
+            <button class="participant-btn disabled" disabled>
+              <img src="@/assets/icons/meeting_and_place/crown.svg" alt="개설자" class="leader"/>
+              <span class="hidden-text">권한 위임</span>
+            </button>
+          </template>
+          <template v-else>
             <button class="participant-btn accept">권한 위임</button>
-            </template>
-          </div>
+          </template>
         </div>
-      </div>
-
-      <hr class="divider" />
-      <div class="participant-modal-content">
-        <h2>참가 신청 목록</h2>
-        <div
-          v-for="(applicant, index) in applicants"
-          :key="'applicant-' + index"
-          class="applicant-card"
-        >
-          <div class="applicant-profile">
-            <img :src="applicant.profileImageUrl" alt="프로필" />
-          </div>
-          <div class="applicant-info">
-            <p><strong>{{ applicant.nickname }}</strong></p>
-            <p><strong>{{ applicant.gender }}</strong> | <strong>{{ applicant.age }}세</strong> | <strong>{{ applicant.mannerTemperature
-              }}°C</strong></p>
-            <p>{{ applicant.introduction }}</p>
-          </div>
-          <div class="applicant-actions">
-            <button class="btn accept" @click="acceptParticipation(applicant)">수락</button>
-            <button class="btn reject" @click="rejectParticipation(applicant)">거절</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="participant-modal-button">
-        <button class="btn accept">모임 바로가기</button>
-        <button class="btn cancel" @click="cancelMeeting">모임 취소</button>
       </div>
     </div>
+
+    <hr class="divider" />
+    <div class="participant-modal-content">
+      <h2>참가 신청 목록</h2>
+      <div
+        v-for="(applicant, index) in applicants"
+        :key="'applicant-' + index"
+        class="applicant-card"
+      >
+        <div class="applicant-profile">
+          <img :src="applicant.profileImageUrl" alt="프로필" />
+        </div>
+        <div class="applicant-info">
+          <p><strong>{{ applicant.nickname }}</strong></p>
+          <p><strong>{{ applicant.gender }}</strong> | <strong>{{ applicant.age }}세</strong> | <strong>{{ applicant.mannerTemperature
+            }}°C</strong></p>
+          <p>{{ applicant.introduction }}</p>
+        </div>
+        <div class="applicant-actions">
+          <button class="btn accept" @click="acceptParticipation(applicant)">수락</button>
+          <button class="btn reject" @click="rejectParticipation(applicant)">거절</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="participant-modal-button">
+      <button class="btn accept">모임 바로가기</button>
+      <button class="btn cancel" @click="cancelMeeting">모임 취소</button>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import api from '@/api/axios.js';
 import { useAuthStore } from '@/stores/auth.js';
+import {startLoading} from "@/composables/useLoadingBar.js";
 
 const auth = useAuthStore();
 
@@ -123,12 +124,14 @@ function closeModal() {
 
 async function acceptParticipation(applicant) {
   try {
+    startLoading()
     const memberId = applicant.memberId;
     const response = await api.put(`/common-service/meetings/${meetingId.value}/participation/${memberId}/accept`
-    ,  { // 여기에 body 데이터 작성
+      ,  { // 여기에 body 데이터 작성
         memberId: auth.userId  // 예시: 요청자 ID (혹은 다른 필요한 데이터)
         // 필요한 다른 데이터들을 여기에 추가
       });
+
     console.log(response.data);
   } catch (error) {
     console.error('참가 수락 실패:', error);
@@ -138,6 +141,7 @@ async function acceptParticipation(applicant) {
 
 async function rejectParticipation(applicant) {
   try {
+    startLoading()
     const memberId = applicant.memberId;
     const response = await api.put(`/common-service/meetings/${meetingId.value}/participation/${memberId}/reject`,
       { // 여기에 body 데이터 작성

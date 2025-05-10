@@ -52,34 +52,34 @@ const emits = defineEmits(['close', 'select']);
     로딩중
   </template>
   <template v-else>
-  <div class="assignment-modal">
-    <div class="modal-box">
-      <!-- 모달 헤더 -->
-      <div class="modal-header">
-        <img src="@/assets/icons/meeting_and_place/sidebar-participated_meetings.svg" alt="참가 모임 목록" class="icon-img"/>
-        <h2>참가 모임 목록</h2>
-        <button class="close-btn" @click="$emit('close')">×</button>
-      </div>
+    <div class="assignment-modal">
+      <div class="modal-box">
+        <!-- 모달 헤더 -->
+        <div class="modal-header">
+          <img src="@/assets/icons/meeting_and_place/sidebar-participated_meetings.svg" alt="참가 모임 목록" class="icon-img"/>
+          <h2>참가 모임 목록</h2>
+          <button class="close-btn" @click="$emit('close')">×</button>
+        </div>
 
-      <div class="assignment-list">
-        <!-- 예시 카드 -->
-        <div class="assignment-card"
-             v-for="meeting in meetings"
-             :key="meeting.meetingId"
-             @click="$emit('select', meeting)"
-        >
-          <img src="../img/place_img1.png" alt="썸네일" class="assignment-thumb" />
-          <div class="assignment-content">
-            <div class="assignment-title"> {{meeting.meetingTitle}} </div>
-            <div class="assignment-address"> {{ meeting.placeName || meeting.customPlaceAddress }} </div>
+        <div class="assignment-list">
+          <!-- 예시 카드 -->
+          <div class="assignment-card"
+               v-for="meeting in meetings"
+               :key="meeting.meetingId"
+               @click="$emit('select', meeting)"
+          >
+            <img src="https://media.istockphoto.com/id/1425158165/ko/%EC%82%AC%EC%A7%84/%ED%83%81%EA%B5%AC-%ED%83%81%EA%B5%AC-%EB%9D%BC%EC%BC%93%EA%B3%BC-%EB%B8%94%EB%A3%A8-%EB%B3%B4%EB%93%9C%EC%97%90-%ED%9D%B0%EC%83%89-%EA%B3%B5.jpg?s=612x612&w=is&k=20&c=ots0jCHMDfuDpVbFLj_wI38nsMmeyyG7ETY8R3ilA8w=" alt="썸네일" class="assignment-thumb" />
+            <div class="assignment-content">
+              <div class="assignment-title"> {{meeting.meetingTitle}} </div>
+              <div class="assignment-address"> {{ meeting.placeName || meeting.customPlaceAddress }} </div>
+            </div>
+            <div class="assignment-status"> {{ statusName(meeting.statusId) }} </div>
           </div>
-          <div class="assignment-status"> {{ statusName(meeting.statusId) }} </div>
+
         </div>
 
       </div>
-
     </div>
-  </div>
   </template>
 </template>
 
