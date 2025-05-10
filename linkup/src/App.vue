@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer.vue';
 import { useToast } from 'vue-toastification';
 import { emitter } from '@/api/utils/sse.js';
 import LoadingBar from '@/components/common/LoadingBar.vue';
+import AdminHeader from '@/features/admin/components/AdminHeader.vue';
 
 // 현재 경로
 const route = useRoute();
@@ -31,6 +32,8 @@ onUnmounted(() => {
 <template>
   <!-- 일반 사용자 헤더만 조건부 출력 -->
   <Header v-if="!isAdminRoute" />
+  <AdminHeader v-if="isAdminRoute"/>
+
   <!-- 공통 라우터 뷰 (AdminLayout 포함됨) -->
   <RouterView />
   <Footer />

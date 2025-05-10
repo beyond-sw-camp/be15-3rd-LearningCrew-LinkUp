@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import AdminHeader from '@/features/admin/components/AdminHeader.vue'
 import AdminSidebar from '@/features/admin/components/AdminSidebar.vue'
 import { adminSidebarMap } from '@/features/admin/constants/adminSidebarMap.js' // 사이드바 정의 외부화
 
@@ -22,11 +21,6 @@ const pageTitle = computed(() =>
 
 <template>
   <div class="admin-wrapper">
-    <!-- 헤더 영역 -->
-    <header role="banner">
-      <AdminHeader />
-    </header>
-
     <div class="admin-container">
       <!-- 사이드바 메뉴 -->
       <aside role="complementary" aria-label="관리자 메뉴" class="sidebar">
@@ -45,6 +39,23 @@ const pageTitle = computed(() =>
   </div>
 </template>
 
- <style scoped>
+<style scoped>
+.admin-wrapper {
+  display: flex;
+  flex-direction: column;
+  //min-height: 100vh;
+}
 
+.admin-container {
+  display: flex;
+  flex: 1;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
 </style>

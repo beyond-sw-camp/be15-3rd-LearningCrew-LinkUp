@@ -180,3 +180,174 @@ function handleDecision() {
     </template>
   </AdminListTemplate>
 </template>
+
+<style scoped>
+/* ========== 필터 영역 ========== */
+.filter-wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+.filter-box,
+.filter-fields {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.select-box,
+input[type="text"],
+select {
+  height: 32px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+.select-box {
+  margin-left: 12px;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
+.id-input {
+  width: 50px;
+}
+
+.input-box {
+  min-width: 160px;
+}
+
+
+/* ========== 스크린 리더 전용 텍스트 ========== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ========== 모달 오버레이 ========== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+/* ========== 모달 내용 박스 ========== */
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid #e3e6ef;
+  width: 700px;
+  max-width: 90%;
+}
+
+.modal-title {
+  display: block;
+  font-size: 1.3em;
+  font-weight: bold;
+  unicode-bidi: isolate;
+}
+
+
+/* ========== 모달 레이아웃 ========== */
+.modal-body {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.modal-left,
+.modal-right {
+  flex: 1;
+  display: flex;
+}
+
+.modal-left {
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-left img {
+  width: 240px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.modal-image {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.modal-right {
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+
+/* ========== 모달 입력 영역 ========== */
+.modal-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.modal-select,
+.modal-input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  height: auto;
+}
+
+
+/* ========== 모달 푸터 버튼 ========== */
+.modal-footer,
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+</style>

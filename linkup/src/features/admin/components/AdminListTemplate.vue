@@ -151,5 +151,47 @@ onMounted(() => fetchList({ ...filters.value, page: 1 }))
 </template>
 
 <style scoped>
-/* 필요 시 스타일 정의 */
+.table th,
+.table td {
+  padding: 14px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #f5f3fa;
+  border-bottom: 1px solid #e3e1ed;
+  font-weight: 500;
+  color: #444;
+}
+
+.table tbody td {
+  background-color: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+select,
+input[type="text"] {
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
 </style>

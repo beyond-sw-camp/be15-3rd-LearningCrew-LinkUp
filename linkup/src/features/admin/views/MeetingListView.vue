@@ -2,9 +2,25 @@
 import { ref, reactive } from 'vue'
 import { fetchMeetingList } from '@/api/admin.js'  // Adjusted to call fetchMeetingList API
 import AdminListTemplate from '@/features/admin/components/AdminListTemplate.vue'
+import MeetingManageModal from '@/features/meeting/views/MeetingManageModal.vue';
+import ParticipantsModal from '@/features/meeting/views/ParticipantsModal.vue';
 
 const props = defineProps({ pageTitle: String })
 
+// 모달 상태
+const selectedMeeting = ref(null)
+const showManageModal = ref(false)
+const showParticipantsModal = ref(false)
+
+const openManageModal = (meeting) => {
+  selectedMeeting.value = meeting
+  showManageModal.value = true
+}
+
+const openParticipantsModal = (meeting) => {
+  selectedMeeting.value = meeting
+  showParticipantsModal.value = true
+}
 const filters = reactive({
   meetingGender: 'BOTH',
   ageGroups: '',
@@ -53,7 +69,7 @@ const columns = [
     format: (_, row) => ({
       type: 'button',
       label: '보기',
-      onClick: () => alert(`모임 상세 보기: ${row.meetingId}`)
+      onClick: () => goToMeetingDetail(row.meetingId)
     })
   }
 ]
@@ -101,6 +117,9 @@ const fetchAdminMeetingList = async ({ page }) => {
     console.error('Error fetching meeting list:', e)
     return { data: [], totalPages: 1 }
   }
+}
+function goToMeetingDetail(meetingId) {
+  router.push(`/meetings/${meetingId}`);
 }
 </script>
 
@@ -163,5 +182,94 @@ const fetchAdminMeetingList = async ({ page }) => {
         <input type="date" v-model="filters.maxDate" class="select-box date-input" />
       </label>
     </template>
+
   </AdminListTemplate>
+
+  <!-- 참가자 목록 조회 모달 -->
+  <ParticipantsModal
+    :visible="showParticipantsModal"
+    :meeting="selectedMeeting"
+    @close="showParticipantsModal = false"
+  />
 </template>
+
+<style scoped>
+.filter-wrapper {
+  display: flex;
+  margin-bottom: 12px;
+  justify-content: space-between;
+}
+
+.filter-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 6px;
+}
+
+.select-box {
+  margin-left: 12px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.input-box {
+  min-width: 160px;
+}
+
+select,
+input[type="text"] {
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #7d6fb3;
+  box-shadow: 0 0 0 2px rgba(125, 111, 179, 0.2);
+}
+
+.id-input {
+  width: 50px;
+}
+
+/* 스크린리더 전용 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
