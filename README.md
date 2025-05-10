@@ -686,6 +686,23 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 <br>
 
+#### 장소  
+- STEP055 등록 장소 목록 조회  
+<img src="assets/test_cases/place/step55_myplacelist.png" alt="STEP055 등록 장소 목록 조회"/>  
+- STEP056 장소 등록  
+<img src="assets/test_cases/place/step56_registerplace.png" alt="STEP056 장소 등록"/>  
+- STEP077 장소 상세 조회  
+<img src="assets/test_cases/place/step77_placedetail.png" alt="STEP077 장소 상세 조회"/>  
+- STEP079 장소 후기 삭제  
+<img src="assets/test_cases/place/step79_placereview_delete.png" alt="STEP079 장소 후기 삭제"/>  
+- STEP080~082 장소 등록 시나리오 
+<img src="assets/test_cases/place/step80-82_registerplace.gif" alt="STEP080~082 장소 등록 시나리오"/>  
+- STEP085 외부 예약 등록  
+<img src="assets/test_cases/place/step085_externalreservation1.png" alt="STEP085 외부 예약 등록"/>  
+- STEP086 외부 예약 삭제  
+<img src="assets/test_cases/place/step086_externalreservation2.png" alt="STEP086 외부 예약 삭제"/>
+
+
 <br>
 
 ---
