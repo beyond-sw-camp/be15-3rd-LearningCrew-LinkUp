@@ -1,7 +1,10 @@
 <script setup>
 
 import { onMounted, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth.js';
+import api from '@/api/axios.js';
 
+const userStore = useAuthStore();
 const meetings = ref([]);
 
 meetings.value = [{
@@ -11,14 +14,15 @@ meetings.value = [{
 }
 ];
 
-// onMounted(async() => {
-//   try {
-//     const response = await axios.get(`/meetings/interested/${userId}`)
-//     meetings.value = response.data.data.meeting
-//   } catch (e) {
-//     console.error('개설 모임 조회 실패', e);
-//   }
-// })
+onMounted(async() => {
+  try {
+    const userId = userStore.userId;
+    const response = await api.get(`/common-service/meetings/interested/${userId}`);
+    meetings.value = response.data.data.meetings;
+  } catch (e) {
+    console.error('개설 모임 조회 실패', e);
+  }
+})
 
 const statusName = (id) => {
   switch(id) {
