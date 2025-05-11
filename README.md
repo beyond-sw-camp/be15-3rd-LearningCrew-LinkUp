@@ -529,6 +529,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 
 
 ### 4. 🧪 테스트 케이스 상세
+
 <details>
 <summary>회원</summary>
 - STEP02~06 회원 가입
@@ -540,7 +541,7 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 <img src="assets/test_cases/user/step08-verify_email_fail.PNG" alt="STEP08 이메일 인증"/>
    <img src="assets/test_cases/user/step08-verify_email_success.PNG" alt="STEP08 이메일 인증"/>
 - STEP09-10 비밀번호 찾기(비밀번호 링크 전송) 및 비밀번호 재설정
-<img src="assets/test_cases/user/step09-reset-password-link.gif" alt="STEP09-10 비밀번호 찾기(비밀번호 링크 전송)"/>
+<img src="assets/test_cases/user/step09-10-reset-password.gif" alt="STEP09-10 비밀번호 찾기(비밀번호 링크 전송)"/>
 - STEP11~12 로그인 정보 입력  
 <img src="assets/test_cases/user/step11-12-login.gif" alt="STEP11~12 로그인"/>
 - STEP13 로그아웃
@@ -550,39 +551,59 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 - STEP23~24 복구완료
 <img src="assets/test_cases/user/step23-24-recover.gif" alt="STEP21-22 복구완료"/>
 
-</details>
-
-<br>
-
-<details>
-<summary>포인트</summary>
-
-- STEP032 포인트 내역 조회  
-<img src="assets/test_cases/point/step032-history.PNG" alt="STEP032 포인트 내역 조회"/>
-
-- STEP033 포인트 충전 신청  
-<img src="assets/test_cases/point/step033-request_charge.PNG" alt="STEP033 포인트 충전 신청"/>
-
-- STEP034 포인트 충전  
-<img src="assets/test_cases/point/step034-charge.PNG" alt="STEP034 포인트 충전"/>
-
-- STEP035 계좌 조회  
-<img src="assets/test_cases/point/step035-account_view.PNG" alt="STEP035 계좌 조회"/>
-
-- STEP036 계좌 등록  
-<img src="assets/test_cases/point/step036-account_register.PNG" alt="STEP036 계좌 등록"/>
-
-- STEP037 계좌 수정  
-<img src="assets/test_cases/point/step037-account_edit.PNG" alt="STEP037 계좌 수정"/>
-
-- STEP038 포인트 환불 신청  
-<img src="assets/test_cases/point/step038-refund_request.PNG" alt="STEP038 포인트 환불 신청"/>
-
 - STEP039 정산 내역 조회  
-<img src="assets/test_cases/point/step039-settlement_history.PNG" alt="STEP039 정산 내역 조회"/>
+<img src="assets/test_cases/user/step39-settlement-history.png" alt="STEP039 정산 내역 조회"/>
 
 - STEP040 월별 정산 대금 조회  
-<img src="assets/test_cases/point/step040-monthly_settlement.PNG" alt="STEP040 월별 정산 대금 조회"/>
+<img src="assets/test_cases/user/step40.settlement-monthly.png" alt="STEP040 월별 정산 대금 조회"/>
+
+- STEP041 내가 작성한 댓글 조회
+<img src="assets/test_cases/user/step41-mycomments.png" alt="STEP041 댓글 조회"/>
+
+
+- STEP042 내가 작성한 게시물 조회
+<img src="assets/test_cases/user/step42-myposts.png" alt="STEP041 게시글 조회"/>
+
+- STEP043 개설 모임 조회
+<img src="assets/test_cases/user/step43-created-meetings.png" alt="STEP43 개설 모임 조회"/>
+
+- STEP44 참여 모임 조회(예정, 완료, 취소)
+<img src="assets/test_cases/user/step44-joined-meetings.png" alt="STEP44 참여 모임 조회(예정, 완료, 취소)"/>
+
+- STEP44 친구 개설 모임 조회
+<img src="assets/test_cases/user/step45-friend-meetings.png" alt="STEP45 친구 개설 모임 조회"/>
+
+- STEP47-49 친구 관리(친구 신청 목록 조회, 친구 수락 및 거절, 친구 목록 조회)
+<img src="assets/test_cases/user/step47-49-friends.gif" alt="STEP45 친구 관리"/>
+
+- STEP55-58 운영중인 장소 목록
+<img src="assets/test_cases/user/step55-58-business-places.png" alt="STEP55-58 운영 중인 장소 목록"/>
+- STEP032 포인트 내역 조회  
+<img src="assets/test_cases/user/step32-profile_transaction.gif" alt="STEP032 포인트 내역 조회"/>
+
+- STEP033 포인트 충전 신청  
+<img src="assets/test_cases/user/step033-request_charge.PNG" alt="STEP033 포인트 충전 신청"/>
+
+- STEP034 포인트 충전  
+<img src="assets/test_cases/user/step034-charge.PNG" alt="STEP034 포인트 충전"/>
+
+- STEP035 계좌 조회  
+<img src="assets/test_cases/user/step35-37-accout.gif" alt="STEP035 계좌 조회"/>
+
+- STEP036 계좌 등록  
+<img src="assets/test_cases/user/step036-account_register.PNG" alt="STEP036 계좌 등록"/>
+
+- STEP037 계좌 수정  
+<img src="assets/test_cases/user/step037-account_edit.PNG" alt="STEP037 계좌 수정"/>
+
+- STEP038 포인트 환불 신청  
+<img src="assets/test_cases/user/step038-refund_request.PNG" alt="STEP038 포인트 환불 신청"/>
+
+- STEP039 정산 내역 조회  
+<img src="assets/test_cases/user/step39-settlement-history.png" alt="STEP039 정산 내역 조회"/>
+
+- STEP040 월별 정산 대금 조회  
+<img src="assets/test_cases/user/step40.settlement-monthly.png" alt="STEP040 월별 정산 대금 조회"/>
 
 </details>
 
