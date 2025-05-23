@@ -527,6 +527,36 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 <img src="assets/test_cases/user/step21-22-withdraw.gif" alt="STEP21-22 회원탈퇴"/>
 - STEP23~24 복구완료
 <img src="assets/test_cases/user/step23-24-recover.gif" alt="STEP21-22 복구완료"/>
+
+
+- STEP039 정산 내역 조회  
+<img src="assets/test_cases/user/step39-settlement-history.png" alt="STEP039 정산 내역 조회"/>
+
+- STEP040 월별 정산 대금 조회  
+<img src="assets/test_cases/user/step40.settlement-monthly.png" alt="STEP040 월별 정산 대금 조회"/>
+
+- STEP041 내가 작성한 댓글 조회
+<img src="assets/test_cases/user/step41-mycomments.png" alt="STEP041 댓글 조회"/>
+
+
+- STEP042 내가 작성한 게시물 조회
+<img src="assets/test_cases/user/step42-myposts.png" alt="STEP041 게시글 조회"/>
+
+- STEP043 개설 모임 조회
+<img src="assets/test_cases/user/step43-created-meetings.png" alt="STEP43 개설 모임 조회"/>
+
+- STEP44 참여 모임 조회(예정, 완료, 취소)
+<img src="assets/test_cases/user/step44-joined-meetings.png" alt="STEP44 참여 모임 조회(예정, 완료, 취소)"/>
+
+- STEP44 친구 개설 모임 조회
+<img src="assets/test_cases/user/step45-friend-meetings.png" alt="STEP45 친구 개설 모임 조회"/>
+
+- STEP47-49 친구 관리(친구 신청 목록 조회, 친구 수락 및 거절, 친구 목록 조회)
+<img src="assets/test_cases/user/step48-49-friends.gif" alt="STEP45 친구 관리"/>
+
+- STEP55-58 운영중인 장소 목록
+<img src="assets/test_cases/user/step55-58-business-places.png" alt="STEP55-58 운영 중인 장소 목록"/>
+
 - STEP32 포인트 내역 조회  
 <img src="assets/test_cases/user/step32-profile_transaction.gif" alt="STEP032 포인트 내역 조회"/>
 - STEP35-37 계좌 관리(계좌 조회, 등록, 수정)
@@ -534,7 +564,9 @@ LinkUp은 모임이라는 소속에 구애받지 않고 언제든 원할 때 신
 - STEP39 정산 내역 조회  
 <img src="assets/test_cases/user/step39-settlement-history.png" alt="STEP39 정산 내역 조회"/>
 - STEP40 월별 정산 대금 조회  
+
 <img src="assets/test_cases/user/step40-settlement-monthly.png" alt="STEP040 월별 정산 대금 조회"/>
+
 - STEP41 작성한 댓글 조회
 <img src="assets/test_cases/user/step41-mycomments.png" alt="STEP041 작성한 댓글 조회"/>
 - STEP42 작성한 게시물 조회
